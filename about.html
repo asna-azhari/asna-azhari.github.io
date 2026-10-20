@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About — Asna Azhari</title>
+<meta name="description" content="Hardware engineer in Yogyakarta. I joined a medical device company as its first hardware engineer, with no product to copy and nobody to learn from.">
+<meta name="theme-color" content="#faf9f6">
+<link rel="icon" href="img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="img/ikon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="img/ikon-180.png">
+<link rel="canonical" href="https://asna-azhari.github.io/about.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Asna Azhari">
+<meta property="og:url" content="https://asna-azhari.github.io/about.html">
+<meta property="og:title" content="About — Asna Azhari">
+<meta property="og:description" content="There was nobody to check my work, so I became that person. First hardware engineer at a medical device company.">
+<meta property="og:image" content="https://asna-azhari.github.io/img/pratinjau.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* HALAMAN TENTANG
+   Satu kolom prosa yang nyaman dibaca, dengan rel fakta di kanan.
+   Nada: terus terang, termasuk soal yang belum teruji. */
+
+:root{
+  --latar:#faf9f6; --ubin:#eceae4; --ubin-2:#e3e0d7;
+  --tinta:#14130f; --tinta-2:#6b685f; --tinta-3:#9c988c;
+  --aksen:#9c3b1b; --garis:#ddd9d0; --tepi:24px;
+}
+*,*::before,*::after{ box-sizing:border-box }
+body{
+  margin:0; background:var(--latar); color:var(--tinta);
+  font:400 15px/1.5 Archivo, system-ui, sans-serif; -webkit-font-smoothing:antialiased;
+}
+a{ color:inherit; text-decoration:none }
+p{ margin:0 }
+ul{ margin:0; padding:0; list-style:none }
+:focus-visible{ outline:2px solid var(--aksen); outline-offset:3px }
+
+.depan{ padding:var(--tepi) }
+
+/* ------------------------------------------------------ bar tipis */
+.bilah{
+  display:flex; align-items:center; gap:26px; flex-wrap:wrap;
+  padding-bottom:16px; border-bottom:1px solid var(--tinta); margin-bottom:38px;
+}
+.bilah .nama{ font-weight:700; font-size:17px; letter-spacing:-.03em; margin-right:auto }
+.menu{ display:flex; flex-wrap:wrap; gap:22px; font-size:14px; font-weight:500 }
+.menu a{ padding-bottom:2px; border-bottom:2px solid transparent }
+.menu a:hover{ border-bottom-color:var(--tinta) }
+.menu a.kini{ color:var(--aksen); border-bottom-color:var(--aksen) }
+.sisi{ display:flex; gap:18px; font-size:14px; color:var(--tinta-2) }
+.sisi a:hover{ color:var(--aksen) }
+
+/* ------------------------------------------------------ kepala */
+.kepala{
+  display:grid; grid-template-columns:minmax(0,1.5fr) auto;
+  gap:52px; align-items:center; margin-bottom:12px;
+}
+h1{
+  margin:0; font-size:clamp(30px,3.6vw,56px); font-weight:700;
+  letter-spacing:-.045em; line-height:1.0; max-width:15ch;
+}
+h1 .aks{ color:var(--aksen) }
+.jabatan{ margin-top:18px; font-size:14px; font-weight:500; color:var(--tinta-2) }
+.aku{
+  width:clamp(150px,17vw,250px); aspect-ratio:1; border-radius:50%;
+  overflow:hidden; background:var(--ubin); justify-self:end;
+}
+.aku img{ width:100%; height:100%; object-fit:cover; display:block }
+
+/* ------------------------------------------------------ badan */
+.badan{
+  margin-top:40px; padding-top:26px; border-top:1px solid var(--tinta);
+  display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,.85fr);
+  gap:56px; align-items:start;
+}
+.prosa p{ font-size:16px; line-height:1.72; color:var(--tinta-2); max-width:66ch }
+.prosa p + p{ margin-top:1.1em }
+.prosa b{ color:var(--tinta); font-weight:600 }
+.prosa h2{
+  margin:2.2em 0 .7em; font-size:19px; font-weight:700; letter-spacing:-.03em;
+  color:var(--tinta);
+}
+.prosa h2:first-child{ margin-top:0 }
+
+.tebal{
+  margin:1.4em 0; padding-left:20px; border-left:2px solid var(--aksen);
+  font-size:17px; line-height:1.62; color:var(--tinta); max-width:58ch;
+}
+
+/* tiga pertanyaan */
+.tanya{ margin:1.4em 0; padding:0; list-style:none; counter-reset:t }
+.tanya li{
+  position:relative; padding-left:38px; margin-bottom:16px;
+  font-size:15.5px; line-height:1.62; color:var(--tinta-2); max-width:62ch;
+}
+.tanya li::before{
+  counter-increment:t; content:counter(t);
+  position:absolute; left:0; top:1px;
+  width:23px; height:23px; border-radius:50%;
+  background:var(--aksen); color:#fff;
+  font-size:12.5px; font-weight:700; line-height:23px; text-align:center;
+}
+.tanya b{ color:var(--tinta) }
+
+/* rel fakta */
+.rel{ display:flex; flex-direction:column; gap:0; padding-top:4px }
+.rel div{
+  padding:13px 0; border-bottom:1px solid var(--garis);
+  display:grid; grid-template-columns:92px 1fr; gap:14px; font-size:13.5px;
+}
+.rel div:first-child{ border-top:1px solid var(--garis) }
+.rel dt{ color:var(--tinta-3) }
+.rel dd{ margin:0; color:var(--tinta); font-weight:500 }
+.rel dd span{ display:block; font-weight:400; color:var(--tinta-2); font-size:13px; margin-top:2px }
+
+/* ------------------------------------------------------ kaki */
+.ajakan{
+  margin-top:48px; padding:28px 30px; background:var(--tinta); color:var(--latar);
+  display:flex; flex-wrap:wrap; align-items:center; gap:18px 30px;
+}
+.ajakan b{ font-size:19px; font-weight:700; letter-spacing:-.03em }
+.ajakan p{ font-size:13.5px; color:#b3ada2; max-width:54ch; margin-top:5px }
+.ajakan .tbl{
+  margin-left:auto; display:flex; gap:10px; flex-wrap:wrap;
+}
+.ajakan a{
+  padding:12px 22px; background:var(--aksen); color:#fff;
+  font-size:14px; font-weight:600; white-space:nowrap;
+}
+.ajakan a.garis{ background:transparent; border:1px solid #4a4741; color:var(--latar) }
+.ajakan a:hover{ background:#b84824; border-color:#b84824 }
+
+@media (max-width:1000px){
+  .kepala{ grid-template-columns:1fr auto; gap:30px }
+  .badan{ grid-template-columns:1fr; gap:34px }
+  .rel{ max-width:460px }
+}
+@media (max-width:620px){
+  :root{ --tepi:16px }
+  .bilah .nama{ margin-right:0 }
+  .kepala{ grid-template-columns:1fr; gap:24px }
+  .aku{ justify-self:start; width:150px; order:-1 }
+  .ajakan .tbl{ margin-left:0 }
+}
+</style>
+</head>
+<body>
+
+<main class="depan">
+
+  <nav class="bilah">
+    <a class="nama" href="index.html">Asna Azhari</a>
+    <div class="menu">
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a href="skills.html">Skills</a>
+      <a href="boards/index.html">3D Boards</a>
+      <a class="kini" href="about.html">About</a>
+    </div>
+    <div class="sisi">
+      <a href="https://wa.me/6285701496855" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="https://linkedin.com/in/asna-azhari" target="_blank" rel="noopener">Linkedin</a>
+      <a href="mailto:asnaazhari12@gmail.com">Email</a>
+    </div>
+  </nav>
+
+  <div class="kepala">
+    <div>
+      <h1>There was nobody to check my work. <span class="aks">So I became that person.</span></h1>
+      <p class="jabatan">Asna Azhari &middot; Hardware engineer &middot; Yogyakarta, Indonesia</p>
+    </div>
+    <div class="aku">
+      <img src="img/asna-azhari.jpg" alt="Asna Azhari" width="400" height="400">
+    </div>
+  </div>
+
+  <div class="badan">
+
+    <div class="prosa">
+
+      <p>I joined a medical device company in January 2024 as its <b>first hardware
+        engineer</b>. The company was newly formed and had no products yet. There was no
+        design to copy, no senior engineer to ask, and no process to follow. I built the
+        function while teaching myself what the function was.</p>
+
+      <p>Three of the products I have worked on arrived from outside vendors who had left
+        them unreliable, unfinished, or too thin on features. One was started from a blank
+        page. Five have been released to production and three are in mass production.</p>
+
+      <h2>How I work</h2>
+
+      <p>The habit I care most about is checking how a number was produced before accepting
+        what it says. Three questions, in order:</p>
+
+      <ol class="tanya">
+        <li>Did the <b>method</b> suit the question that was actually asked?</li>
+        <li>Was the <b>reading</b> taken correctly?</li>
+        <li>Was the <b>processing</b> right?</li>
+      </ol>
+
+      <p>That applies to my own results before anyone else's, and to data other people hand
+        me. It is not suspicion. A measurement can be taken honestly and still be wrong one
+        step behind, and the point of asking is to find which step.</p>
+
+      <p>Each of the three has caught something real. An EMC fix measured 23.4 dB better but
+        in the condition that had already passed, not the one that had failed, so it was
+        rejected and the product went on to pass retest with 9.35 dB of margin. I withdrew a
+        finding of my own after realising I had read an oscilloscope cursor across two
+        periods rather than one. An irradiance report divided a 60 nm band by 30, which had
+        doubled every figure in it; correcting it dropped the passing points from 15 of 18 to
+        three. And a modem datasheet figure circulating online said 2.8 A where the
+        manufacturer's own hardware manual says 2 A, which is what the power rail was
+        designed around.</p>
+
+      <p class="tebal">The corrected numbers made my own work look worse in three of those
+        four cases. That is the only reason the other numbers on this site are worth
+        anything.</p>
+
+      <h2>Why the habit exists</h2>
+
+      <p>Because there was nobody else. With no senior engineer to review a schematic and no
+        process to catch a mistake before it reached a factory, the checking had to come from
+        somewhere, and the only place left was me. I would rather have learned it with
+        someone looking over my shoulder, but this is how it happened.</p>
+
+      <p>It also shaped what I build. When the tool I needed did not exist, I made it: an
+        evaluation board so firmware did not have to wait for product hardware, a USB to TTL
+        adapter, a Modbus adapter, a hub. None of them ship to a customer. They exist so the
+        real work can move.</p>
+
+      <h2>Before this</h2>
+
+      <p>I studied Electrical Engineering at <b>Universitas Negeri Yogyakarta</b>,
+        concentrating on control systems. My thesis predicted state of charge in a 108 V
+        259 Ah battery pack using an LSTM network, which is where I first had to decide
+        whether a model that fitted the data was actually telling me something true.</p>
+
+      <h2>What I want next</h2>
+
+      <p>A bench with people more experienced than me on it. I have spent nearly three years
+        deciding alone whether something was good enough, and I have got better at it than I
+        expected to. <b>What I have not had is anyone to argue with me.</b> That is the part
+        I am missing, and it is the main thing I am looking for.</p>
+
+    </div>
+
+    <dl class="rel">
+      <div><dt>Role</dt><dd>Hardware engineer<span>First one at the company</span></dd></div>
+      <div><dt>Since</dt><dd>January 2024</dd></div>
+      <div><dt>Based in</dt><dd>Yogyakarta, Indonesia</dd></div>
+      <div><dt>Products</dt><dd>5<span>Three in mass production</span></dd></div>
+      <div><dt>Boards</dt><dd>14<span>Plus four in-house tools</span></dd></div>
+      <div><dt>Scope</dt><dd>Schematic to release<span>Including the firmware that tests it</span></dd></div>
+      <div><dt>Standards</dt><dd>IEC 60601 family<span>ISO 14971, CISPR 11</span></dd></div>
+      <div><dt>Open to</dt><dd>Hardware, embedded, compliance</dd></div>
+    </dl>
+
+  </div>
+
+  <div class="ajakan">
+    <div>
+      <b>Argue with me</b>
+      <p>If you are hiring for hardware, embedded or compliance work, I would like to hear
+        what you think I have got wrong.</p>
+    </div>
+    <div class="tbl">
+      <a href="https://wa.me/6285701496855" target="_blank" rel="noopener">WhatsApp</a>
+      <a class="garis" href="mailto:asnaazhari12@gmail.com">asnaazhari12@gmail.com</a>
+    </div>
+  </div>
+
+</main>
+
+</body>
+</html>

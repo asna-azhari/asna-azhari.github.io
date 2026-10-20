@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects — Asna Azhari</title>
+<meta name="description" content="Five products, fourteen circuit boards. Eight of them can be opened and rotated in 3D.">
+<meta name="theme-color" content="#faf9f6">
+<link rel="icon" href="img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="img/ikon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="img/ikon-180.png">
+<link rel="canonical" href="https://asna-azhari.github.io/projects.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Asna Azhari">
+<meta property="og:url" content="https://asna-azhari.github.io/projects.html">
+<meta property="og:title" content="Projects — Asna Azhari">
+<meta property="og:description" content="Five products, fourteen boards. Most of them open in a 3D viewer you can rotate.">
+<meta property="og:image" content="https://asna-azhari.github.io/img/pratinjau.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* KATALOG PROYEK
+   Satu blok per produk, berisi board-board yang menyusunnya. Sebuah alat
+   jarang satu papan, jadi mengelompokkannya per board menyesatkan. */
+
+:root{
+  --latar:#faf9f6; --ubin:#eceae4; --ubin-2:#e3e0d7;
+  --tinta:#14130f; --tinta-2:#6b685f; --tinta-3:#9c988c;
+  --aksen:#9c3b1b; --garis:#ddd9d0; --tepi:24px;
+}
+*,*::before,*::after{ box-sizing:border-box }
+body{
+  margin:0; background:var(--latar); color:var(--tinta);
+  font:400 15px/1.5 Archivo, system-ui, sans-serif; -webkit-font-smoothing:antialiased;
+}
+a{ color:inherit; text-decoration:none }
+p{ margin:0 }
+:focus-visible{ outline:2px solid var(--aksen); outline-offset:3px }
+
+.depan{ padding:var(--tepi) }
+
+/* ------------------------------------------------------ bar tipis */
+.bilah{
+  display:flex; align-items:center; gap:26px; flex-wrap:wrap;
+  padding-bottom:16px; border-bottom:1px solid var(--tinta); margin-bottom:38px;
+}
+.bilah .nama{ font-weight:700; font-size:17px; letter-spacing:-.03em; margin-right:auto }
+.menu{ display:flex; flex-wrap:wrap; gap:22px; font-size:14px; font-weight:500 }
+.menu a{ padding-bottom:2px; border-bottom:2px solid transparent }
+.menu a:hover{ border-bottom-color:var(--tinta) }
+.menu a.kini{ color:var(--aksen); border-bottom-color:var(--aksen) }
+.sisi{ display:flex; gap:18px; font-size:14px; color:var(--tinta-2) }
+.sisi a:hover{ color:var(--aksen) }
+
+/* ------------------------------------------------------ kepala halaman */
+.kepala{
+  display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1.1fr);
+  gap:52px; align-items:end; margin-bottom:12px;
+}
+h1{
+  margin:0; font-size:clamp(30px,3.6vw,56px); font-weight:700;
+  letter-spacing:-.045em; line-height:1.0; max-width:15ch;
+}
+h1 .aks{ color:var(--aksen) }
+.kepala p{ font-size:14.5px; line-height:1.62; color:var(--tinta-2); max-width:48ch }
+.kepala p b{ color:var(--tinta); font-weight:600 }
+
+/* ------------------------------------------------------ blok proyek */
+.proyek{
+  padding-top:22px; margin-top:34px;
+  border-top:1px solid var(--garis); scroll-margin-top:20px;
+}
+".proyek:first-of-type{ border-top:1px solid var(--tinta) }
+.alat{ padding-top:24px; margin-top:40px; border-top:1px solid var(--tinta) }
+.alat .atas h2{ font-size:clamp(19px,2.1vw,24px) }
+.alat .cap b{ color:var(--tinta-2) }
+
+.atas{
+  display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 18px; margin-bottom:6px;
+}
+.no{ font-size:12.5px; font-weight:600; color:var(--tinta-3); letter-spacing:.08em }
+.atas h2{
+  margin:0; font-size:clamp(20px,2.3vw,27px); font-weight:700; letter-spacing:-.035em;
+}
+.cap{ margin-left:auto; font-size:13px; color:var(--tinta-3) }
+.cap b{ color:var(--aksen); font-weight:600 }
+.ringkas{ font-size:14.5px; line-height:1.6; color:var(--tinta-2); max-width:62ch }
+
+/* ------------------------------------------------------ deretan board */
+.papan{ margin-top:18px; display:grid; grid-template-columns:repeat(3,1fr); gap:12px }
+.papan.empat{ grid-template-columns:repeat(4,1fr) }
+.papan.dua{ grid-template-columns:repeat(2,1fr); max-width:66% }
+.papan.satu{ grid-template-columns:1fr; max-width:33% }
+
+.brd{ background:var(--ubin); display:flex; flex-direction:column; overflow:hidden }
+.gambar{
+  position:relative; aspect-ratio:4/3; overflow:hidden; display:block;
+  background:var(--ubin); transition:background .22s ease;
+}
+.gambar img{ width:100%; height:100%; object-fit:cover; display:block }
+.gambar.render{ background:#fff }
+.gambar.render img{ object-fit:contain }
+a.gambar:hover{ background:var(--ubin-2) }
+a.gambar.render:hover{ background:#fff }
+.gambar .kosong{
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  font-size:12.5px; color:var(--tinta-3);
+}
+.gambar .lencana{
+  position:absolute; z-index:2; top:10px; right:12px;
+  padding:5px 9px; font-size:11px; font-weight:700; letter-spacing:.08em;
+  background:var(--tinta); color:var(--latar);
+}
+a.gambar:hover .lencana{ background:var(--aksen) }
+.brd .isi{ padding:12px 15px 14px }
+.brd b{ display:block; font-size:14.5px; font-weight:600; letter-spacing:-.02em }
+.brd i{ display:block; font-style:normal; font-size:12.5px; color:var(--tinta-2); margin-top:3px }
+
+/* ------------------------------------------------------ penyingkap */
+details{ margin-top:16px }
+summary{
+  cursor:pointer; list-style:none; display:inline-flex; align-items:center; gap:7px;
+  font-size:13.5px; font-weight:500; color:var(--aksen);
+}
+summary::-webkit-details-marker{ display:none }
+summary::after{
+  content:""; width:6px; height:6px; flex:none;
+  border-right:1.6px solid currentColor; border-bottom:1.6px solid currentColor;
+  transform:rotate(45deg) translateY(-2px); transition:transform .2s ease;
+}
+details[open] summary::after{ transform:rotate(-135deg) translateY(-2px) }
+summary:hover{ text-decoration:underline; text-underline-offset:2px }
+details p{ margin-top:12px; font-size:14px; line-height:1.68; color:var(--tinta-2); max-width:76ch }
+details p + p{ margin-top:.9em }
+
+/* ------------------------------------------------------ ajakan viewer */
+.ajakan{
+  margin-top:40px; padding:26px 28px; background:var(--tinta); color:var(--latar);
+  display:flex; flex-wrap:wrap; align-items:center; gap:18px 30px;
+}
+.ajakan b{ font-size:19px; font-weight:700; letter-spacing:-.03em }
+.ajakan p{ font-size:13.5px; color:#b3ada2; max-width:52ch }
+.ajakan a{
+  margin-left:auto; padding:12px 22px; background:var(--aksen); color:#fff;
+  font-size:14px; font-weight:600; white-space:nowrap;
+}
+.ajakan a:hover{ background:#b84824 }
+
+@media (max-width:1000px){
+  .kepala{ grid-template-columns:1fr; gap:24px; align-items:start }
+  .papan,.papan.empat{ grid-template-columns:repeat(2,1fr) }
+  .papan.dua,.papan.satu{ max-width:none }
+  .papan.satu{ grid-template-columns:repeat(2,1fr) }
+}
+@media (max-width:620px){
+  :root{ --tepi:16px }
+  .bilah .nama{ margin-right:0 }
+  .papan,.papan.empat,.papan.dua,.papan.satu{ grid-template-columns:1fr }
+  .cap{ margin-left:0 }
+  .ajakan a{ margin-left:0 }
+}
+</style>
+</head>
+<body>
+
+<main class="depan">
+
+  <nav class="bilah">
+    <a class="nama" href="index.html">Asna Azhari</a>
+    <div class="menu">
+      <a href="index.html">Home</a>
+      <a class="kini" href="projects.html">Projects</a>
+      <a href="skills.html">Skills</a>
+      <a href="boards/index.html">3D Boards</a>
+      <a href="about.html">About</a>
+    </div>
+    <div class="sisi">
+      <a href="https://wa.me/6285701496855" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="https://linkedin.com/in/asna-azhari" target="_blank" rel="noopener">Linkedin</a>
+      <a href="mailto:asnaazhari12@gmail.com">Email</a>
+    </div>
+  </nav>
+
+  <div class="kepala">
+    <h1><span id="n-produk">Five</span> products. <span class="aks"><span id="n-board">Fourteen</span> boards behind them.</span></h1>
+    <p>A machine is rarely one circuit board. Each product below lists the boards it is
+      actually built from, and most of them open in a <b>3D viewer</b> where you can rotate
+      the board and look at the real component placement. Schematics, Gerber data and bills
+      of materials are not published, as that material belongs to the companies I designed
+      them for.</p>
+  </div>
+
+  <!-- ===================================================== incubator -->
+  <section class="proyek" id="incubator">
+    <div class="atas">
+      <span class="no">01</span>
+      <h2>Baby incubator</h2>
+      <span class="cap"><span class="jml">Three boards</span> &middot; <b>released for production</b></span>
+    </div>
+    <p class="ringkas">A mainboard, a sensor board, and a separate safety board that can cut
+      the heater without asking the controller first.</p>
+
+    <div class="papan">
+
+      <article class="brd">
+        <a class="gambar render" href="boards/index.html#mainboard">
+          <span class="lencana">3D</span>
+          <img src="Asset/3D_V2.4_MBINCU.png" alt="Baby incubator mainboard V2.4"
+               width="2160" height="1809" loading="lazy">
+        </a>
+        <div class="isi">
+          <b>Mainboard</b>
+          <i>Six schematic sheets, 293 placements</i>
+        </div>
+      </article>
+
+      <article class="brd">
+        <a class="gambar render" href="boards/index.html#sensor">
+          <span class="lencana">3D</span>
+          <img src="Asset/3D_V2.2_SBINCU.png" alt="Incubator sensor board V2.2"
+               width="2160" height="1916" loading="lazy">
+        </a>
+        <div class="isi">
+          <b>Sensor board</b>
+          <i>Chamber temperature, humidity and air flow</i>
+        </div>
+      </article>
+
+      <article class="brd">
+        <a class="gambar render" href="boards/index.html#thermo">
+          <span class="lencana">3D</span>
+          <img src="Asset/3D_V1.0_TSBINCU.png" alt="Heater safety board V1.0"
+               width="2160" height="1748" loading="lazy">
+        </a>
+        <div class="isi">
+          <b>Heater safety board</b>
+          <i>Thermal cut-out and battery disconnect &middot; in design</i>
+        </div>
+      </article>
+
+    </div>
+
+    <details>
+      <summary>About this product</summary>
+      <p>The mainboard came to me from an outside vendor with the entire circuit on a single
+        schematic sheet: no current measurement, no thermocouple interface, no cut-off relays
+        and no external watchdog. A device can run perfectly well without any of those. What
+        it cannot do is prove that it is safe.</p>
+      <p>I rebuilt it across six sheets divided by function, with three-rail current
+        monitoring, thermocouple front ends, three cut-off relays, an external watchdog and
+        dedicated fuse holders, designed against IEC 60601-2-19 including a clause-by-clause
+        map of where the earlier design did not comply with the thermal cut-out requirement.
+        It is released for production and being prepared for clinical trial.</p>
+      <p>The third board exists because of that clause. A thermal cut-out has to work
+        independently of any thermostat, which means it cannot live on the same controller it
+        is protecting. It carries its own temperature cut-out and a low-voltage disconnect for
+        the battery, and it is still in design.</p>
+    </details>
+  </section>
+
+  <!-- ===================================================== meja operasi -->
+  <section class="proyek" id="operating-table">
+    <div class="atas">
+      <span class="no">02</span>
+      <h2>Operating table</h2>
+      <span class="cap"><span class="jml">Four boards</span> &middot; <b>mass production</b></span>
+    </div>
+    <p class="ringkas">One controller covering three product variants, the supply board that
+      feeds it, and the two hand controls the surgeon actually touches.</p>
+
+    <div class="papan empat">
+
+      <article class="brd">
+        <a class="gambar render" href="boards/index.html#mo">
+          <span class="lencana">3D</span>
+          <img src="Asset/3D_V2.1_MBOT%20A.png" alt="Operating table mainboard V2.1"
+               width="2160" height="1715" loading="lazy">
+        </a>
+        <div class="isi">
+          <b>Mainboard</b>
+          <i>Three variants and both remotes on one board</i>
+        </div>
+      </article>
+
+      <article class="brd">
+        <a class="gambar render" href="boards/index.html#psu">
+          <span class="lencana">3D</span>
+          <img src="Asset/3D_PSU_V7.0.png" alt="PSU control board V7.0"
+               width="2160" height="1924" loading="lazy">
+        </a>
+        <div class="isi">
+          <b>PSU control board</b>
+          <i>12 V, 20 A continuous and 40 A peak</i>
+        </div>
+      </article>
+
+      <article class="brd">
+        <div class="gambar render">
+          <img src="Asset/3D_Hand_remote.png" alt="Operating table hand remote"
+               width="2160" height="1483" loading="lazy">
+        </div>
+        <div class="isi">
+          <b>Hand remote</b>
+          <i>The main hand control</i>
+        </div>
+      </article>
+
+      <article class="brd">
+        <div class="gambar render">
+          <img src="Asset/3D_Second_Remote.png" alt="Operating table second remote"
+               width="2160" height="1346" loading="lazy">
+        </div>
+        <div class="isi">
+          <b>Second remote</b>
+          <i>Both remotes run from the same mainboard</i>
+        </div>
+      </article>
+
+    </div>
+
+    <details>
+      <summary>About this product</summary>
+      <p>The imported controller it replaced served only one of three product variants. The
+        second variant needed an extra stepper driver board, and the two remote controls ran
+        on two different designs of their own. One mainboard now covers all three variants and
+        drives both remotes. Fewer boards means fewer connectors, and on equipment that moves
+        and is cleaned constantly, cabled joints are the most common thing to fail.</p>
+      <p>Per-unit cost of a control set fell by roughly 70 % against buying the imported part,
+        and the design reached mass production at 50 sets.</p>
+      <p>This is also the product that failed conducted emission at an accredited laboratory,
+        by up to 8.5 dB and only while the machine was moving. Bonding the floating DC ground
+        to the chassis cut the common-mode noise from 7.68 to 0.56 Vpp in the failing
+        condition. A larger Y-capacitor measured 23.4 dB better at rest but did nothing while
+        the machine moved, so it was rejected. On retest all four movement conditions passed,
+        with 9.35 dB of margin in the worst case.</p>
+    </details>
+  </section>
+
+  <!-- ===================================================== fototerapi -->
+  <section class="proyek" id="phototherapy">
+    <div class="atas">
+      <span class="no">03</span>
+      <h2>Neonatal phototherapy</h2>
+      <span class="cap"><span class="jml">Two boards</span> &middot; <b>passed regulatory testing</b></span>
+    </div>
+    <p class="ringkas">A mainboard that merges control and LED driver into one, the LED board
+      that sits above the infant, and the adapter that carries the display.</p>
+
+    <div class="papan">
+      <article class="brd">
+        <a class="gambar render" href="boards/index.html#bluelight">
+          <span class="lencana">3D</span>
+          <img src="Asset/3D_PCB_2.0_Bluelight.png" alt="Bluelight phototherapy mainboard V2.0"
+               width="2160" height="1659" loading="lazy">
+        </a>
+        <div class="isi">
+          <b>Mainboard</b>
+          <i>Control and driver on one board</i>
+        </div>
+      </article>
+
+      <article class="brd">
+        <div class="gambar render">
+          <img src="Asset/3D_LED_Board_Bluelight.png" alt="Bluelight LED board"
+               width="2160" height="479" loading="lazy">
+        </div>
+        <div class="isi">
+          <b>LED board</b>
+          <i>The emitter array, mapped at 18 points</i>
+        </div>
+      </article>
+
+      <article class="brd">
+        <div class="gambar render">
+          <img src="Asset/3D_PCB_2.0_Bluelight_Display_Holder.png" alt="Bluelight display adapter board"
+               width="2160" height="1902" loading="lazy">
+        </div>
+        <div class="isi">
+          <b>Display adapter</b>
+          <i>Carries the display ribbon and the serial link to the mainboard</i>
+        </div>
+      </article>
+    </div>
+
+    <details>
+      <summary>About this product</summary>
+      <p>What cures a jaundiced infant is not how bright the lamp looks but the irradiance
+        reaching the skin, so the light has to be mapped rather than described. I measured 18
+        points across a 30 by 60 cm mattress area with a spectrometer, peak wavelength 456 nm,
+        inside the bilirubin absorption band.</p>
+      <p>The spreadsheet behind the report divided the 430 to 490 nm band by a width of 30 nm
+        instead of 60, which had doubled every figure in it. By the original numbers 15 of 18
+        points cleared the intensive threshold. Corrected, only three did. The raw file was
+        left untouched, the correction was applied in analysis, and every output since carries
+        a note explaining it. The corrected numbers made the product look worse, which is the
+        only reason worth trusting them.</p>
+    </details>
+  </section>
+
+  <!-- ===================================================== nurse call -->
+  <section class="proyek" id="nurse-call">
+    <div class="atas">
+      <span class="no">04</span>
+      <h2>Wireless nurse call</h2>
+      <span class="cap"><span class="jml">Two boards</span> &middot; <b>two products from scratch</b></span>
+    </div>
+    <p class="ringkas">A patient button and a receiver, designed to drop into nurse call
+      systems that are already installed.</p>
+
+    <div class="papan dua">
+
+      <article class="brd">
+        <a class="gambar render" href="boards/index.html#nurse">
+          <span class="lencana">3D</span>
+          <img src="Asset/3D_NLM%20V2.0.1.png" alt="Nurse call module V2.0.1"
+               width="2160" height="1818" loading="lazy">
+        </a>
+        <div class="isi">
+          <b>Receiver</b>
+          <i>ESP32-C3, battery powered, isolated dry-contact output</i>
+        </div>
+      </article>
+
+      <article class="brd">
+        <a class="gambar render" href="boards/index.html#button">
+          <span class="lencana">3D</span>
+          <img src="Asset/3D_Button%20Unit_V1.1.png" alt="Nurse call patient button V1.1"
+               width="2160" height="2158" loading="lazy">
+        </a>
+        <div class="isi">
+          <b>Patient button</b>
+          <i>nRF52832, 69 days on one battery</i>
+        </div>
+      </article>
+
+    </div>
+
+    <details>
+      <summary>About this product</summary>
+      <p>Hospitals already own nurse call systems, and replacing one is expensive and
+        disruptive, so almost nobody does it. The receiver has a dry-contact output
+        galvanically isolated by PhotoMOS, which lets it work with any brand of master station
+        without changing anything already on the wall. It runs on its own batteries, so
+        fitting one does not mean pulling a new power cable through a ward that is in use.
+        The chip antenna sits behind a matching network on swappable footprints, so tuning
+        never forces a PCB respin.</p>
+      <p>Enabling the GPIO wake feature alongside an edge interrupt left the button drawing
+        18 mA instead of 0.4 mA, forty-five times worse, which only became visible because the
+        current was measured rather than assumed. Average current came down from 0.90 to
+        0.60 mA and battery life rose from 46 to 69 days. The published figure is 63 days,
+        because the longer numbers still needed a month of field validation.</p>
+    </details>
+  </section>
+
+  <!-- ===================================================== energy meter -->
+  <section class="proyek" id="energy-meter">
+    <div class="atas">
+      <span class="no">05</span>
+      <h2>Three-phase energy meter</h2>
+      <span class="cap"><span class="jml">One boards</span> &middot; <b>meter verified, add-on in design</b></span>
+    </div>
+    <p class="ringkas">Monitoring and remote cut-off for generator sets from 25 to 200 kVA,
+      and the cellular add-on that gets the readings off site. Designed for PT Avenxor.</p>
+
+    <div class="papan dua">
+      <article class="brd">
+        <div class="gambar render">
+          <img src="Asset/3D_PCB1_AVX_MG.png" alt="AVX-MG-101 three-phase energy meter"
+               width="2160" height="1751" loading="lazy">
+        </div>
+        <div class="isi">
+          <b>AVX-MG-101</b>
+          <i>400 V four-wire &middot; 3D model not prepared yet</i>
+        </div>
+      </article>
+
+      <article class="brd">
+        <div class="gambar render">
+          <img src="Asset/3D_PCB1_AVX_Air_Tag.png" alt="AVX-MG-A1 cellular add-on board"
+               width="2160" height="1672" loading="lazy">
+        </div>
+        <div class="isi">
+          <b>AVX-MG-A1 cellular add-on</b>
+          <i>LTE Cat1 and GNSS, deliberately without a microcontroller</i>
+        </div>
+      </article>
+    </div>
+
+    <details>
+      <summary>About this product</summary>
+      <p>Three-phase four-wire at 400/230 V. One side of the board sits on the mains; the
+        other is a battery-referenced microcontroller that a person can touch. An ATM90E36A
+        metering front end is held in full galvanic isolation from an ESP32-S3 host, with 8 mm
+        creepage for reinforced class at 400 V line to line. The cut-off relay is fail-safe:
+        if control dies, the generator disconnects rather than stays on.</p>
+      <p>The voltage front end reads correctly with no calibration applied, because the
+        divider was calculated properly from the start. Bench work also caught an
+        accelerometer a supplier had shipped as a clone: the I²C address was right, but the
+        identity register answered 0x11 instead of 0x44.</p>
+      <p>The add-on board carries an A7670E, which gives LTE Cat1 and GNSS on one module, a
+        nano SIM and an antenna connector. It has <b>no microcontroller of its own</b>, on
+        purpose: the meter already has an ESP32, so the host drives the modem over UART with
+        AT commands rather than paying for a second processor to manage the first one.</p>
+      <p>Two details decided the design. The module's UART runs at <b>1.8 V</b> referenced to
+        its own regulator output while the host is 3.3 V, so a level shifter sits between
+        them. And the transmit burst pulls about <b>2 A</b> from a 3.4 to 4.2 V rail, which
+        sets the regulator and the bulk capacitance. That 2 A came from the manufacturer's
+        hardware design manual; the figure circulating online is 2.8 A and it is wrong.</p>
+      <p>I took this board on to teach myself cellular connectivity. Component selection is
+        settled and the board is drawn. There is no firmware yet, and I would rather say so
+        than imply otherwise.</p>
+    </details>
+  </section>
+
+
+  <!-- ===================================================== alat kerja -->
+  <section class="alat" id="tooling">
+    <div class="atas">
+      <span class="no">&mdash;</span>
+      <h2>In-house tooling</h2>
+      <span class="cap">Not a product &middot; <b>built to work with</b></span>
+    </div>
+    <p class="ringkas">Boards I made for myself. None of them ship to a customer; they exist
+      so that firmware and measurement do not have to wait for product hardware.</p>
+
+    <div class="papan empat">
+      <article class="brd alat-brd">
+        <div class="gambar render">
+          <img src="Asset/3D_EvalBoard.png" alt="STM32G474RET6 evaluation board"
+               width="2160" height="3241" loading="lazy">
+        </div>
+        <div class="isi">
+          <b>STM32G474 evaluation board</b>
+          <i>Every pin broken out, labelled, on headers and screw terminals</i>
+        </div>
+      </article>
+
+      <article class="brd alat-brd">
+        <div class="gambar render">
+          <img src="Asset/3D_USB_TTL.png" alt="USB to TTL adapter"
+               width="2160" height="1734" loading="lazy">
+        </div>
+        <div class="isi">
+          <b>USB to TTL adapter</b>
+          <i>DTR and RTS wired to drop an ESP32 into its bootloader</i>
+        </div>
+      </article>
+
+      <article class="brd alat-brd">
+        <div class="gambar render">
+          <img src="Asset/3D_Modbus_to_TTL.png" alt="Modbus RTU to USB adapter"
+               width="2160" height="1783" loading="lazy">
+        </div>
+        <div class="isi">
+          <b>Modbus RTU to USB</b>
+          <i>MAX3485 and CH340N, fused and protected on the line side</i>
+        </div>
+      </article>
+
+      <article class="brd alat-brd">
+        <div class="gambar render">
+          <img src="Asset/3D_PCB2_USBHUB_TYPEC_mendatar.png" alt="Eight-port USB-C hub strip"
+               width="4091" height="634" loading="lazy">
+        </div>
+        <div class="isi">
+          <b>Eight-port USB-C hub</b>
+          <i>One upstream, eight downstream, a fuse on every port</i>
+        </div>
+      </article>
+    </div>
+
+    <details>
+      <summary>Why it exists</summary>
+      <p>An STM32G474RET6 carrier with every usable pin broken out twice: to a labelled
+        header for jumper wires and to a screw terminal for anything that has to stay put
+        while it is being measured. USB-C, a standard SWD header, NRST and BOOT buttons, and
+        two regulators so the board can be fed from a bench supply or from USB.</p>
+      <p>The silkscreen carries the pin name next to every connection, which is the part that
+        actually saves time. Probing the wrong pin is the cheapest mistake to make and one of
+        the more expensive ones to find.</p>
+      <p>The two adapters do the same thing for the other end of the bench. The USB to TTL
+        board breaks out DTR and RTS through the transistor pair that puts an ESP32 into its
+        bootloader, so flashing does not mean holding a button down. The Modbus adapter puts a
+        MAX3485 behind a CH340N with fuses and TVS diodes on the line side, because a bus that
+        runs around a building eventually meets something it should not.</p>
+    </details>
+  </section>
+
+  <div class="ajakan">
+    <div>
+      <b>Eight boards, free to rotate</b>
+      <p>The viewer loads the real 3D model exported from the PCB design, with every
+        component in the place it actually sits on the board.</p>
+    </div>
+    <a href="boards/index.html">Open the 3D viewer</a>
+  </div>
+
+</main>
+
+<script>
+/* Jumlah produk dan board dihitung dari kartunya sendiri, supaya angkanya
+   tidak perlu dibetulkan tangan tiap kali board baru ditambahkan. */
+(function () {
+  'use strict';
+  var KATA = ['Zero','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten',
+              'Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen',
+              'Eighteen','Nineteen','Twenty'];
+  var kata = function (n) { return n <= 20 ? KATA[n] : String(n); };
+
+  var proyek = document.querySelectorAll('.proyek');
+  var semua  = document.querySelectorAll('.proyek .brd');
+
+  var p = document.getElementById('n-produk');
+  var b = document.getElementById('n-board');
+  if (p) p.textContent = kata(proyek.length);
+  if (b) b.textContent = kata(semua.length);
+
+  Array.prototype.forEach.call(proyek, function (el) {
+    var n = el.querySelectorAll('.brd').length;
+    var t = el.querySelector('.cap .jml');
+    if (t) t.textContent = kata(n) + (n === 1 ? ' board' : ' boards');
+  });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skills — Asna Azhari</title>
+<meta name="description" content="What I work with: board design, embedded firmware, measurement and verification, and production release. Each claim points at the product that proves it.">
+<meta name="theme-color" content="#faf9f6">
+<link rel="icon" href="img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="img/ikon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="img/ikon-180.png">
+<link rel="canonical" href="https://asna-azhari.github.io/skills.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Asna Azhari">
+<meta property="og:url" content="https://asna-azhari.github.io/skills.html">
+<meta property="og:title" content="Skills — Asna Azhari">
+<meta property="og:description" content="Board design, embedded, measurement and verification, production release. Each claim points at the product that proves it.">
+<meta property="og:image" content="https://asna-azhari.github.io/img/pratinjau.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* HALAMAN KEAHLIAN
+   Tiap kelompok menyebut bukti: produk mana yang membuktikannya. Daftar
+   keahlian tanpa bukti bisa ditulis siapa saja. */
+
+:root{
+  --latar:#faf9f6; --ubin:#eceae4; --ubin-2:#e3e0d7;
+  --tinta:#14130f; --tinta-2:#6b685f; --tinta-3:#9c988c;
+  --aksen:#9c3b1b; --garis:#ddd9d0; --tepi:24px;
+}
+*,*::before,*::after{ box-sizing:border-box }
+body{
+  margin:0; background:var(--latar); color:var(--tinta);
+  font:400 15px/1.5 Archivo, system-ui, sans-serif; -webkit-font-smoothing:antialiased;
+}
+a{ color:inherit; text-decoration:none }
+p{ margin:0 }
+ul{ margin:0; padding:0; list-style:none }
+:focus-visible{ outline:2px solid var(--aksen); outline-offset:3px }
+
+.depan{ padding:var(--tepi) }
+
+/* ------------------------------------------------------ bar tipis */
+.bilah{
+  display:flex; align-items:center; gap:26px; flex-wrap:wrap;
+  padding-bottom:16px; border-bottom:1px solid var(--tinta); margin-bottom:38px;
+}
+.bilah .nama{ font-weight:700; font-size:17px; letter-spacing:-.03em; margin-right:auto }
+.menu{ display:flex; flex-wrap:wrap; gap:22px; font-size:14px; font-weight:500 }
+.menu a{ padding-bottom:2px; border-bottom:2px solid transparent }
+.menu a:hover{ border-bottom-color:var(--tinta) }
+.menu a.kini{ color:var(--aksen); border-bottom-color:var(--aksen) }
+.sisi{ display:flex; gap:18px; font-size:14px; color:var(--tinta-2) }
+.sisi a:hover{ color:var(--aksen) }
+
+/* ------------------------------------------------------ kepala halaman */
+.kepala{
+  display:grid; grid-template-columns:minmax(0,1.5fr) minmax(0,1.1fr);
+  gap:52px; align-items:end; margin-bottom:46px;
+}
+h1{
+  margin:0; font-size:clamp(30px,3.6vw,56px); font-weight:700;
+  letter-spacing:-.045em; line-height:1.0; max-width:15ch;
+}
+h1 .aks{ color:var(--aksen) }
+.kepala p{ font-size:14.5px; line-height:1.62; color:var(--tinta-2); max-width:48ch }
+.kepala p b{ color:var(--tinta); font-weight:600 }
+
+/* ------------------------------------------------------ kelompok keahlian */
+.kel{
+  padding-top:24px; margin-top:34px; border-top:1px solid var(--garis);
+  display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.5fr) minmax(0,.9fr);
+  gap:44px; align-items:start;
+}
+.kel:first-of-type{ border-top:1px solid var(--tinta) }
+
+.kel h2{
+  margin:0; font-size:clamp(19px,2.1vw,25px); font-weight:700; letter-spacing:-.035em;
+}
+.kel .no{
+  display:block; margin-bottom:7px;
+  font-size:12.5px; font-weight:600; color:var(--tinta-3); letter-spacing:.08em;
+}
+.kel .apa{ font-size:14.5px; line-height:1.68; color:var(--tinta-2) }
+.kel .apa b{ color:var(--tinta); font-weight:600 }
+
+.rinci{ display:flex; flex-wrap:wrap; gap:6px; margin-top:14px }
+.rinci span{
+  padding:5px 10px; background:var(--ubin); font-size:12.5px; color:var(--tinta-2);
+}
+
+/* bukti */
+.bukti{ border-left:2px solid var(--aksen); padding-left:16px }
+.bukti b{
+  display:block; font-size:11.5px; font-weight:600; letter-spacing:.09em;
+  color:var(--tinta-3); margin-bottom:8px;
+}
+.bukti p{ font-size:13.5px; line-height:1.6; color:var(--tinta-2) }
+.bukti a{
+  display:inline-block; margin-top:9px; font-size:13px; font-weight:500; color:var(--aksen);
+}
+.bukti a:hover{ text-decoration:underline; text-underline-offset:2px }
+
+/* ------------------------------------------------------ standar */
+.standar{ margin-top:46px; padding-top:24px; border-top:1px solid var(--tinta) }
+.standar h2{ margin:0 0 6px; font-size:19px; font-weight:700; letter-spacing:-.03em }
+.standar > p{ font-size:14px; color:var(--tinta-2); max-width:62ch }
+.daftar{
+  margin-top:20px; display:grid; grid-template-columns:repeat(2,1fr); gap:0 44px;
+}
+.daftar div{
+  display:grid; grid-template-columns:168px 1fr; gap:16px;
+  padding:11px 0; border-bottom:1px solid var(--garis); font-size:14px;
+}
+.daftar dt{ font-weight:600; letter-spacing:-.02em }
+.daftar dd{ margin:0; color:var(--tinta-2); font-size:13.5px; line-height:1.55 }
+
+/* ------------------------------------------------------ ajakan */
+.ajakan{
+  margin-top:44px; padding:26px 28px; background:var(--tinta); color:var(--latar);
+  display:flex; flex-wrap:wrap; align-items:center; gap:18px 30px;
+}
+.ajakan b{ font-size:19px; font-weight:700; letter-spacing:-.03em }
+.ajakan p{ font-size:13.5px; color:#b3ada2; max-width:52ch }
+.ajakan a{
+  margin-left:auto; padding:12px 22px; background:var(--aksen); color:#fff;
+  font-size:14px; font-weight:600; white-space:nowrap;
+}
+.ajakan a:hover{ background:#b84824 }
+
+@media (max-width:1000px){
+  .kepala{ grid-template-columns:1fr; gap:24px; align-items:start }
+  .kel{ grid-template-columns:1fr; gap:18px }
+  .kel .bukti{ margin-top:4px }
+  .daftar{ grid-template-columns:1fr }
+}
+@media (max-width:620px){
+  :root{ --tepi:16px }
+  .bilah .nama{ margin-right:0 }
+  .daftar div{ grid-template-columns:1fr; gap:3px }
+  .ajakan a{ margin-left:0 }
+}
+</style>
+</head>
+<body>
+
+<main class="depan">
+
+  <nav class="bilah">
+    <a class="nama" href="index.html">Asna Azhari</a>
+    <div class="menu">
+      <a href="index.html">Home</a>
+      <a href="projects.html">Projects</a>
+      <a class="kini" href="skills.html">Skills</a>
+      <a href="boards/index.html">3D Boards</a>
+      <a href="about.html">About</a>
+    </div>
+    <div class="sisi">
+      <a href="https://wa.me/6285701496855" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="https://linkedin.com/in/asna-azhari" target="_blank" rel="noopener">Linkedin</a>
+      <a href="mailto:asnaazhari12@gmail.com">Email</a>
+    </div>
+  </nav>
+
+  <div class="kepala">
+    <h1>Hardware first. <span class="aks">Enough firmware to prove the hardware.</span></h1>
+    <p>A list of skills can be written by anyone, so each group below points at the product
+      that proves it. The work itself is in <b>Projects</b>, and twelve of the boards can be
+      opened in 3D.</p>
+  </div>
+
+  <!-- ===================================================== 01 -->
+  <section class="kel">
+    <div>
+      <span class="no">01</span>
+      <h2>Board design</h2>
+    </div>
+
+    <div>
+      <p class="apa">Schematic capture and PCB layout, taken from a blank sheet to fabrication
+        files. Power and protection circuits, switching supplies, <b>galvanic isolation and
+        creepage</b> where a person can touch one side and the mains sits on the other, EMC and
+        grounding, RF antenna layout and matching, low-power design, and layout that a factory
+        can actually build.</p>
+      <div class="rinci">
+        <span>EasyEDA Pro</span><span>Multi-sheet schematics</span><span>SMPS</span>
+        <span>Reinforced isolation</span><span>Creepage and clearance</span>
+        <span>High-current polygon pours</span><span>EMC and grounding</span>
+        <span>RF matching networks</span><span>Low-power design</span>
+        <span>Design for manufacturing</span>
+      </div>
+    </div>
+
+    <div class="bukti">
+      <b>PROVED BY</b>
+      <p>The three-phase energy meter holds a metering front end in full galvanic isolation
+        from the host, with 8 mm creepage for reinforced class at 400 V line to line.</p>
+      <a href="projects.html#energy-meter">See the board</a>
+    </div>
+  </section>
+
+  <!-- ===================================================== 02 -->
+  <section class="kel">
+    <div>
+      <span class="no">02</span>
+      <h2>Embedded</h2>
+    </div>
+
+    <div>
+      <p class="apa">Firmware written to exercise the hardware rather than to ship a product:
+        bring-up, functional test, and the measurements that decide whether a design claim
+        holds. Enough to find the fault, and enough to know when the fault is mine.</p>
+      <div class="rinci">
+        <span>STM32 F4, G4, H5</span><span>ESP32-C3 and S3</span><span>nRF52832</span>
+        <span>C</span><span>C++</span><span>Python</span>
+        <span>STM32CubeMX</span><span>ESP-IDF</span><span>PlatformIO</span>
+        <span>CMake</span><span>RTOS</span>
+        <span>I²C</span><span>SPI</span><span>UART</span><span>BLE</span><span>MQTT</span>
+      </div>
+    </div>
+
+    <div class="bukti">
+      <p>Enabling the GPIO wake feature alongside an edge interrupt left the patient button
+        drawing 18 mA instead of 0.4 mA. Removing it brought average current from 0.90 to
+        0.60 mA and battery life from 46 to 69 days.</p>
+      <a href="projects.html#nurse-call">See the board</a>
+    </div>
+  </section>
+
+  <!-- ===================================================== 03 -->
+  <section class="kel">
+    <div>
+      <span class="no">03</span>
+      <h2>Measurement and verification</h2>
+    </div>
+
+    <div>
+      <p class="apa">The part I care about most. Checking <b>how a number was produced</b>
+        before accepting what it says: whether the method suited the question, whether the
+        reading was taken correctly, and whether the processing was right. That applies to my
+        own results before anyone else's, and to data other people hand me.</p>
+      <div class="rinci">
+        <span>Oscilloscope</span><span>Logic analyser</span><span>Spectrometer</span>
+        <span>Multimeter</span><span>Current measurement</span>
+        <span>Sensor calibration against reference instruments</span>
+        <span>Test plans traced to requirements</span>
+        <span>Incoming acceptance criteria</span>
+        <span>Reviewing methods and data produced by others</span>
+        <span>Root-cause analysis</span>
+      </div>
+    </div>
+
+    <div class="bukti">
+      <p>A proposed EMC fix measured 23.4 dB better, but at rest, in the condition that had
+        already passed. In the one that had actually failed it changed nothing, so it was
+        rejected. The product passed retest with 9.35 dB of margin.</p>
+      <a href="projects.html#operating-table">See the board</a>
+    </div>
+  </section>
+
+  <!-- ===================================================== 04 -->
+  <section class="kel">
+    <div>
+      <span class="no">04</span>
+      <h2>Release and documentation</h2>
+    </div>
+
+    <div>
+      <p class="apa">A design only counts when somebody else can build it. Fabrication files,
+        the documents that justify them, and the coordination with the supplier and the
+        fabrication house that turns a folder into a crate of boards.</p>
+      <div class="rinci">
+        <span>Gerber</span><span>Pick-and-place</span><span>Bill of materials</span>
+        <span>Design rule checking</span><span>Wiring diagrams</span>
+        <span>Verification documents</span><span>Clause-by-clause gap analysis</span>
+        <span>Supplier and fabrication house coordination</span>
+      </div>
+    </div>
+
+    <div class="bukti">
+      <p>The incubator mainboard went out as Gerber data, pick-and-place coordinates, bill of
+        materials, wiring diagrams and the verification documents behind them, design rule
+        check clean.</p>
+      <a href="projects.html#incubator">See the board</a>
+    </div>
+  </section>
+
+  <!-- ===================================================== standar -->
+  <section class="standar">
+    <h2>Standards I design against</h2>
+    <p>Not a reading list. Each of these has changed something in a board I drew, or decided
+      whether a product could be released.</p>
+
+    <div class="daftar">
+      <div>
+        <dt>IEC 60601-1</dt>
+        <dd>Basic safety for medical equipment. Isolation, creepage, touch current.</dd>
+      </div>
+      <div>
+        <dt>IEC 60601-1-2</dt>
+        <dd>Electromagnetic compatibility. The clause behind the conducted emission retest.</dd>
+      </div>
+      <div>
+        <dt>IEC 60601-2-19</dt>
+        <dd>Baby incubators. Independent thermal cut-out, alarm thresholds, reconnection.</dd>
+      </div>
+      <div>
+        <dt>CISPR 11</dt>
+        <dd>Emission limits, Class A Group 1 for the operating table.</dd>
+      </div>
+      <div>
+        <dt>ISO 14971</dt>
+        <dd>Risk management. Hazard, cause, protection, verification, gap.</dd>
+      </div>
+      <div>
+        <dt>SNI equivalents</dt>
+        <dd>The Indonesian adoptions that national regulatory testing is run against.</dd>
+      </div>
+    </div>
+  </section>
+
+  <div class="ajakan">
+    <div>
+      <b>The boards behind all of this</b>
+      <p>Five products, twelve boards, and most of them open in a 3D viewer where you can
+        rotate them and look at the real component placement.</p>
+    </div>
+    <a href="projects.html">See the projects</a>
+  </div>
+
+</main>
+
+</body>
+</html>

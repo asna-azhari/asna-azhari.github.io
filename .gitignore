@@ -1,0 +1,13 @@
+# Berkas kerja Windows dan macOS
+Thumbs.db
+desktop.ini
+.DS_Store
+
+# Keluaran sementara
+*.tmp
+*.bak
+~$*
+cek-sementara.html
+
+# Catatan kerja, bukan bagian dari situs
+CLAUDE.md
