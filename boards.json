@@ -1,0 +1,63 @@
+{
+  "background": "latar/background.jpg",
+  "output": "PCB Viewer 3D.html",
+  "default": "psu",
+  "boards": [
+    {
+      "key": "mainboard",
+      "project": "Baby incubator",
+      "label": "Mainboard",
+      "glb": "models/mainboard.glb",
+      "sumber": "sumber-3d/Mainboard Incubator V2.4.zip"
+    },
+    {
+      "key": "sensor",
+      "project": "Baby incubator",
+      "label": "Sensor board",
+      "glb": "models/sensor.glb",
+      "sumber": "sumber-3d/Sensor Board Incubator V2.2.zip"
+    },
+    {
+      "key": "thermo",
+      "project": "Baby incubator",
+      "label": "Heater safety board",
+      "glb": "models/thermo.glb",
+      "sumber": "sumber-3d/Thermoswitch Board.zip"
+    },
+    {
+      "key": "mo",
+      "project": "Operating table",
+      "label": "Mainboard",
+      "glb": "models/mo.glb",
+      "sumber": "sumber-3d/MO Controller V2.1 (merah).zip"
+    },
+    {
+      "key": "psu",
+      "project": "Operating table",
+      "label": "PSU control board",
+      "glb": "models/psu.glb",
+      "sumber": "sumber-3d/PSU Control Board.zip"
+    },
+    {
+      "key": "bluelight",
+      "project": "Neonatal phototherapy",
+      "label": "Mainboard",
+      "glb": "models/bluelight.glb",
+      "sumber": "sumber-3d/Bluelight Phototherapy V2.0.zip"
+    },
+    {
+      "key": "nurse",
+      "project": "Wireless nurse call",
+      "label": "Receiver",
+      "glb": "models/nurse.glb",
+      "sumber": "sumber-3d/Nurse Call Module.zip"
+    },
+    {
+      "key": "button",
+      "project": "Wireless nurse call",
+      "label": "Patient button",
+      "glb": "models/button.glb",
+      "sumber": "sumber-3d/Button Unit.zip"
+    }
+  ]
+}

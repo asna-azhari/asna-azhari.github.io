@@ -1,0 +1,11 @@
+{
+  "name": "pcb-viewer-tools",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@gltf-transform/core": "^4.0.0",
+    "@gltf-transform/extensions": "^4.0.0",
+    "@gltf-transform/functions": "^4.0.0",
+    "meshoptimizer": "^0.22.0"
+  }
+}

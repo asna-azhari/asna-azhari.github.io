@@ -68,6 +68,27 @@ board yang benar-benar dia buka, antara 0,4 dan 4,3 MB.
 
 ---
 
+## Membangun ulang 3D viewer
+
+`boards/index.html` bukan berkas yang disunting tangan — dia dibangkitkan:
+
+```
+python -I tools/build_viewer_split.py
+```
+
+Dijalankan dari akar repo. Sumbernya `boards.json` dan `tools/build_viewer_split.py`,
+keduanya ada di repo ini, jadi **repo ini bisa membangun ulang dirinya sendiri.**
+
+**Menambah board:** salin `.glb` ke `boards/models/`, tambah satu entri di `boards.json`
+berisi `key`, `project`, `label`, dan `glb`, lalu jalankan skripnya. Daftar di panel kiri
+viewer mengelompokkan sendiri menurut `project`.
+
+Skrip lain di `tools/` (`obj2glb.mjs`, `build_all.py`, `build_viewer.py`) mengolah ekspor
+OBJ dari EasyEDA menjadi GLB. **Itu butuh bahan sumber 111 MB yang sengaja tidak ikut repo**,
+dan hanya dipakai saat ada board baru.
+
+---
+
 ## Menjalankan di komputer sendiri
 
 ```

@@ -1,0 +1,481 @@
+# -*- coding: utf-8 -*-
+"""Membangun PCB Viewer versi RINGAN ke dalam folder situs.
+
+Bedanya dengan build_viewer.py: GLB tidak ditanam sebagai base64, melainkan
+diambil lewat fetch saat boardnya dipilih. Hasilnya HTML puluhan kilobyte,
+bukan 24 MB, dan pengunjung hanya mengunduh board yang dia buka.
+
+Konsekuensinya berkas ini BUTUH server, tidak bisa dibuka lewat file://.
+
+    python -I tools/build_viewer_split.py
+
+Penanda __NAMA__ dipakai sebagai lubang isian, bukan str.format, sebab
+isinya penuh kurung kurawal CSS dan JavaScript.
+"""
+import io, json, os
+
+# Skrip ini duduk di <repo>/tools/, jadi semua alamat dihitung dari situ.
+# Tidak ada alamat mutlak, supaya repo tetap jalan di mana pun ditaruh.
+AKAR  = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+SITUS = os.path.join(AKAR, 'boards')
+KONF  = json.load(io.open(os.path.join(AKAR, 'boards.json'), encoding='utf-8'))
+
+BOARDS  = KONF['boards']
+LATAR   = KONF.get('background', 'latar/background.jpg')
+DEFAULT = KONF.get('default') or BOARDS[0]['key']
+KELUAR  = os.path.join(SITUS, 'index.html')
+
+NAMA  = {b['key']: b['label'] for b in BOARDS}
+MODEL = {b['key']: b['glb'] for b in BOARDS}
+KUNCI = [b['key'] for b in BOARDS]
+UKUR  = {b['key']: os.path.getsize(os.path.join(SITUS, b['glb']))
+         for b in BOARDS if os.path.exists(os.path.join(SITUS, b['glb']))}
+
+PROYEK = {b['key']: b.get('project', '') for b in BOARDS}
+
+def _daftar():
+    """Tombol board dikelompokkan per proyek, urut sesuai boards.json."""
+    potong, kini = [], None
+    for b in BOARDS:
+        p = b.get('project', '')
+        if p != kini:
+            potong.append('<div class="grup">%s</div>' % p)
+            kini = p
+        potong.append(
+            '<button class="bd" data-k="%s">%s<small>%.1f MB</small></button>'
+            % (b['key'], b['label'], UKUR.get(b['key'], 0) / 1048576.0))
+    return ''.join(potong)
+
+TOMBOL = _daftar()
+
+HTML = u'''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3D Boards — Asna Azhari</title>
+<meta name="theme-color" content="#faf9f6">
+<link rel="icon" href="../img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="../img/ikon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../img/ikon-180.png">
+<link rel="canonical" href="https://asna-azhari.github.io/boards/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Asna Azhari">
+<meta property="og:url" content="https://asna-azhari.github.io/boards/">
+<meta property="og:title" content="3D Boards &mdash; Asna Azhari">
+<meta property="og:description" content="Eight circuit boards you can rotate, with every component where it actually sits.">
+<meta property="og:image" content="https://asna-azhari.github.io/img/pratinjau.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* Warna dan huruf mengikuti halaman portofolio. */
+:root{
+  --latar:#faf9f6; --ubin:#eceae4; --ubin-2:#e3e0d7;
+  --tinta:#14130f; --tinta-2:#6b685f; --tinta-3:#9c988c;
+  --aksen:#9c3b1b; --garis:#ddd9d0;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{
+  display:flex; flex-direction:column; background:var(--tinta); color:var(--tinta);
+  font:400 14px/1.5 Archivo, system-ui, sans-serif; -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--aksen);outline-offset:2px}
+
+/* ------------------------------------------------- bar situs, sama dgn halaman lain */
+nav.bilah{
+  flex:none; display:flex; align-items:center; gap:26px; flex-wrap:wrap;
+  padding:16px 24px 14px; background:var(--latar);
+  border-bottom:1px solid var(--tinta);
+}
+nav.bilah .nama{font-weight:700;font-size:17px;letter-spacing:-.03em;margin-right:auto}
+.menu-situs{display:flex;flex-wrap:wrap;gap:22px;font-size:14px;font-weight:500}
+.menu-situs a{padding-bottom:2px;border-bottom:2px solid transparent}
+.menu-situs a:hover{border-bottom-color:var(--tinta)}
+.menu-situs a.kini{color:var(--aksen);border-bottom-color:var(--aksen)}
+.sisi{display:flex;gap:18px;font-size:14px;color:var(--tinta-2)}
+.sisi a:hover{color:var(--aksen)}
+
+/* ---------------------------------------------------------------- kontrol viewer */
+header{
+  position:relative; flex:none; display:flex; align-items:center; gap:10px;
+  flex-wrap:wrap; padding:9px 62px 9px 24px;
+  background:var(--latar); border-bottom:1px solid var(--garis);
+}
+.curname{color:var(--aksen);font-weight:600;font-size:14px}
+.curproj{color:var(--tinta-3);font-size:13px;margin-left:-4px;white-space:nowrap}
+
+button{
+  background:transparent; color:var(--tinta); border:1px solid var(--garis);
+  border-radius:3px; padding:7px 11px; cursor:pointer;
+  font:500 12.5px/1 Archivo, system-ui, sans-serif; letter-spacing:-.012em;
+  transition:background .18s ease, border-color .18s ease, color .18s ease;
+}
+button:hover{border-color:var(--tinta)}
+button.on{background:var(--aksen);border-color:var(--aksen);color:#fff}
+
+#menu{padding:7px 9px;display:flex;align-items:center}
+.spd{display:flex;align-items:center;gap:7px;color:var(--tinta-2);font-size:13px;margin-left:4px}
+.spd input{width:84px;accent-color:var(--aksen)}
+.spd span{min-width:26px;color:var(--tinta);font-weight:500}
+.info{
+  position:absolute; right:14px; bottom:14px; z-index:2; margin:0;
+  padding:7px 12px; border-radius:3px;
+  background:rgba(250,249,246,.86); color:var(--tinta-2);
+  font-size:12px; letter-spacing:-.01em; pointer-events:none;
+}
+
+/* ---------------------------------------------------------------- panggung */
+#s3{
+  position:relative; flex:1; min-height:0; overflow:hidden;
+  background:linear-gradient(rgba(8,12,18,.3),rgba(8,12,18,.3)),
+             url(__LATAR__) center/cover no-repeat, #10141b;
+}
+#s3 canvas{display:block;width:100%;height:100%}
+#s3.bgdark{background:radial-gradient(ellipse at 50% 35%,#3a4f6b 0%,#222d3d 45%,#10141b 100%)}
+#s3.bglight{background:radial-gradient(ellipse at 50% 35%,#fff 0%,#dfe5ee 60%,#b9c3d1 100%)}
+
+#opsi{margin-left:4px;padding:7px 9px;display:flex;align-items:center}
+
+#kanan{
+  position:absolute; top:0; right:0; bottom:0; width:216px; padding:16px 14px;
+  background:var(--latar); border-left:1px solid var(--garis);
+  transform:translateX(100%); transition:transform .22s ease; z-index:6; overflow:auto;
+}
+#kanan.open{transform:none}
+#kanan .sh{
+  color:var(--tinta-3); font-size:12px; font-weight:600; letter-spacing:.1em;
+  margin:18px 0 10px; padding-bottom:5px; border-bottom:1px solid var(--garis);
+}
+#kanan .sh:first-child{margin-top:2px}
+#kanan button{display:block;width:100%;text-align:left;margin-bottom:6px}
+#tutupbar{
+  position:absolute; right:20px; top:50%; transform:translateY(-50%);
+  margin:0; padding:7px 9px; display:flex; align-items:center;
+}
+#bukabar{
+  position:absolute; top:12px; right:14px; z-index:5; display:none;
+  align-items:center; padding:7px 11px;
+  background:rgba(250,249,246,.9); border:1px solid rgba(20,19,15,.16);
+  border-radius:3px; color:var(--tinta); cursor:pointer;
+}
+#bukabar:hover{background:#fff;border-color:var(--tinta)}
+body.ringkas header{display:none}
+body.ringkas #bukabar{display:flex}
+.lihat button{border-radius:0;margin-left:-1px}
+.lihat button:hover{position:relative;z-index:1}
+.lihat button:first-child{border-radius:3px 0 0 3px;margin-left:0}
+.lihat button:last-child{border-radius:0 3px 3px 0}
+
+/* ---------------------------------------------------------------- daftar board */
+#side{
+  position:absolute; top:0; left:0; bottom:0; width:252px; padding:16px 14px;
+  background:var(--latar); border-right:1px solid var(--garis);
+  transform:translateX(-100%); transition:transform .22s ease; z-index:6; overflow:auto;
+}
+#side.open{transform:none}
+#side .sh{
+  color:var(--tinta-3); font-size:12px; font-weight:600; letter-spacing:.1em;
+  margin:2px 0 12px;
+}
+#side button{
+  display:flex; align-items:baseline; justify-content:space-between; gap:10px;
+  width:100%; text-align:left; margin-bottom:6px;
+}
+#side button small{color:var(--tinta-3);font-size:11.5px;font-weight:400}
+#side .grup{
+  margin:16px 0 8px; padding-bottom:5px; border-bottom:1px solid var(--garis);
+  font-size:11.5px; font-weight:600; letter-spacing:.09em; color:var(--tinta-3);
+  text-transform:uppercase;
+}
+#side .grup:first-of-type{margin-top:4px}
+#side button.on small{color:rgba(255,255,255,.75)}
+
+/* ---------------------------------------------------------------- pesan muat */
+#msg{
+  position:absolute; inset:0; display:flex; flex-direction:column; gap:12px;
+  align-items:center; justify-content:center; pointer-events:none; z-index:4;
+}
+#msg b{
+  background:var(--latar); color:var(--tinta); padding:11px 18px; border-radius:3px;
+  font-size:13.5px; font-weight:500; box-shadow:0 8px 28px rgba(0,0,0,.34);
+}
+#msg .bar{width:min(260px,52vw);height:3px;background:rgba(250,249,246,.32);border-radius:2px;overflow:hidden}
+#msg .bar i{display:block;height:100%;width:0;background:var(--aksen);transition:width .18s ease}
+#msg.sembunyi{display:none}
+#msg.gagal b{max-width:min(540px,88vw);line-height:1.6;text-align:left;pointer-events:auto}
+#msg.gagal code{
+  display:block;margin-top:8px;padding:7px 9px;background:var(--ubin);
+  font:12px/1.5 ui-monospace,Consolas,monospace;color:var(--tinta);border-radius:2px;
+}
+
+/* ---------------------------------------------------------------- kartu bagian */
+#card{
+  position:absolute; left:16px; bottom:16px; width:min(360px,calc(100% - 32px));
+  background:var(--latar); border:1px solid var(--garis); border-radius:4px;
+  padding:14px 16px; display:none; z-index:3; font-size:13px; line-height:1.5;
+  box-shadow:0 14px 40px rgba(0,0,0,.34);
+}
+#card h2{margin:0 26px 7px 0;font-size:15px;font-weight:600;letter-spacing:-.025em}
+#card .t{
+  display:inline-block; font-size:11px; font-weight:600; letter-spacing:.07em;
+  padding:3px 8px; background:var(--aksen); color:#fff; margin-bottom:9px;
+}
+#card table{border-collapse:collapse;margin:4px 0 9px}
+#card td{padding:2px 12px 2px 0;color:var(--tinta-3)}
+#card td+td{color:var(--tinta)}
+#card p{margin:0;color:var(--tinta-2)}
+#card .x{
+  position:absolute;top:6px;right:7px;padding:0 8px;font-size:19px;line-height:26px;
+  background:none;border:0;color:var(--tinta-3);
+}
+#card .x:hover{color:var(--aksen)}
+
+@media (max-width:760px){
+  nav.bilah{padding:12px 14px 10px;gap:14px}
+  nav.bilah .nama{margin-right:0}
+  header{padding:9px 52px 9px 14px;gap:8px}
+  #tutupbar{right:12px}
+  .info{display:none}
+  .spd{display:none}
+}
+</style>
+</head>
+<body>
+
+<nav class="bilah">
+  <a class="nama" href="../index.html">Asna Azhari</a>
+  <div class="menu-situs">
+    <a href="../index.html">Home</a>
+    <a href="../projects.html">Projects</a>
+    <a href="../skills.html">Skills</a>
+    <a class="kini" href="index.html">3D Boards</a>
+    <a href="../about.html">About</a>
+  </div>
+  <div class="sisi">
+    <a href="https://wa.me/6285701496855" target="_blank" rel="noopener">WhatsApp</a>
+    <a href="https://linkedin.com/in/asna-azhari" target="_blank" rel="noopener">Linkedin</a>
+    <a href="mailto:asnaazhari12@gmail.com">Email</a>
+  </div>
+</nav>
+
+<header>
+  <button id="menu" title="Select board">
+    <svg width="17" height="13" viewBox="0 0 17 13" aria-hidden="true">
+      <path d="M0 1h17M0 6.5h17M0 12h17" stroke="currentColor" stroke-width="1.8"/>
+    </svg>
+  </button>
+  <span id="curproj" class="curproj"></span>
+  <span id="curname" class="curname"></span>
+  <button id="bc" class="on">Components: ON</button>
+  <button id="br">Auto-rotate: OFF</button>
+  <label class="spd" title="Rotation speed">Speed
+    <input id="sp" type="range" min="0.5" max="10" step="0.5" value="2"><span id="spv">2&times;</span>
+  </label>
+  <button id="fit">Fit</button>
+  <button id="opsi" title="View and background">
+    <svg width="15" height="13" viewBox="0 0 15 13" aria-hidden="true" fill="none"
+         stroke="currentColor" stroke-width="1.6">
+      <path d="M0 2.5h15M0 10.5h15"/>
+      <circle cx="4.5" cy="2.5" r="2"/><circle cx="10.5" cy="10.5" r="2"/>
+    </svg>
+  </button>
+  <button id="tutupbar" title="Hide the control bar" aria-expanded="true">
+    <svg width="11" height="7" viewBox="0 0 11 7" aria-hidden="true">
+      <path d="M1 6 5.5 1.5 10 6" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    </svg>
+  </button>
+</header>
+
+<div id="s3">
+  <nav id="side"><div class="sh">SELECT BOARD</div>__TOMBOL__</nav>
+
+  <nav id="kanan">
+    <div class="sh">VIEW</div>
+    <button class="vw" data-v="top">Top</button>
+    <button class="vw" data-v="bot">Bottom</button>
+    <button class="vw" data-v="iso">Isometric</button>
+    <div class="sh">BACKGROUND</div>
+    <button class="bg on" data-bg="">Photo</button>
+    <button class="bg" data-bg="bgdark">Dark</button>
+    <button class="bg" data-bg="bglight">Light</button>
+  </nav>
+
+  <div id="msg"><b>Loading 3D model&hellip;</b><span class="bar"><i id="bar"></i></span></div>
+
+  <button id="bukabar" title="Show the control bar">
+    <svg width="11" height="7" viewBox="0 0 11 7" aria-hidden="true">
+      <path d="M1 1.5 5.5 6 10 1.5" fill="none" stroke="currentColor" stroke-width="1.7"/>
+    </svg>
+  </button>
+
+  <p class="info">drag = rotate &middot; scroll = zoom &middot; right-click = pan &middot; click a part for details</p>
+
+  <div id="card">
+    <button class="x" id="cx" title="Close">&times;</button>
+    <span class="t" id="ct"></span>
+    <h2 id="ch"></h2>
+    <table id="cd"></table>
+    <p id="cp"></p>
+  </div>
+</div>
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script type="module">
+import * as THREE from 'three';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {MeshoptDecoder} from 'three/addons/libs/meshopt_decoder.module.js';
+import {RoomEnvironment} from 'three/addons/environments/RoomEnvironment.js';
+
+const $=id=>document.getElementById(id),s3=$('s3'),msg=$('msg'),bar=$('bar');
+const ren=new THREE.WebGLRenderer({antialias:true,alpha:true});ren.setPixelRatio(Math.min(devicePixelRatio,2));
+ren.toneMapping=THREE.ACESFilmicToneMapping;ren.outputColorSpace=THREE.SRGBColorSpace;s3.appendChild(ren.domElement);
+const scene=new THREE.Scene();scene.environment=new THREE.PMREMGenerator(ren).fromScene(new RoomEnvironment(),.04).texture;
+const cam=new THREE.PerspectiveCamera(35,1,1,3000);
+const ctl=new OrbitControls(cam,ren.domElement);ctl.enableDamping=true;ctl.autoRotateSpeed=2;
+const dl=new THREE.DirectionalLight(0xffffff,1.6);dl.position.set(60,120,80);scene.add(dl);
+scene.add(new THREE.HemisphereLight(0xffffff,0xb8c4d6,1.1));
+const hl=new THREE.DirectionalLight(0xffffff,1.3);hl.position.set(0,0,1);cam.add(hl);scene.add(cam);
+const loader=new GLTFLoader();loader.setMeshoptDecoder(MeshoptDecoder);
+const cache={};let cur=null,compOn=true,box=null;
+
+const NAMES=__NAMES__;
+const PROJ=__PROJ__;
+const MODELS=__MODELS__;
+const KEYS=__KEYS__;
+const DEFAULT=__DEFAULT__;
+
+function rs(){ren.setSize(s3.clientWidth,s3.clientHeight);cam.aspect=s3.clientWidth/s3.clientHeight;cam.updateProjectionMatrix()}
+function fit3(v){if(!box)return;v=Array.isArray(v)?v:[0,.75,.65];const c=box.getCenter(new THREE.Vector3()),s=box.getSize(new THREE.Vector3());
+ const r=s.length()/2,d=r/Math.sin(THREE.MathUtils.degToRad(cam.fov/2))*.95;
+ cam.position.copy(c).add(new THREE.Vector3(v[0],v[1],v[2]).normalize().multiplyScalar(d));ctl.target.copy(c);ctl.update()}
+
+/* Model diambil saat dibutuhkan, bukan ditanam di dalam halaman. */
+async function unduh(url){
+ const res=await fetch(url);
+ if(!res.ok)throw new Error(res.status+' '+res.statusText);
+ const total=+res.headers.get('content-length')||0;
+ if(!res.body||!total)return res.arrayBuffer();
+ const baca=res.body.getReader(),potong=[];let sudah=0;
+ for(;;){const r=await baca.read();if(r.done)break;
+  potong.push(r.value);sudah+=r.value.length;bar.style.width=(sudah/total*100).toFixed(1)+'%'}
+ const buf=new Uint8Array(sudah);let o=0;for(const p of potong){buf.set(p,o);o+=p.length}
+ return buf.buffer}
+
+async function parse(k){
+ const bin=await unduh(MODELS[k]);
+ return new Promise((ok,no)=>loader.parse(bin,'',g=>{
+  const m=g.scene,b=new THREE.Box3().setFromObject(m),c=b.getCenter(new THREE.Vector3());
+  m.position.sub(new THREE.Vector3(c.x,0,c.z));b.translate(new THREE.Vector3(-c.x,0,-c.z));ok({m,b})},no))}
+
+function gagal(e){
+ const lokal=location.protocol==='file:';
+ msg.className='gagal';
+ msg.innerHTML='<b>Could not load the 3D model.'+(lokal
+  ? ' This page was opened straight from a file, and the browser blocks fetching files over <code>file://</code>. Start a small server in the portfolio folder first:<code>python -m http.server 8000</code>then open <code>http://localhost:8000/boards/</code>'
+  : ' '+e.message)+'</b>'}
+
+async function select(k){
+ document.querySelectorAll('.bd').forEach(b=>b.classList.toggle('on',b.dataset.k===k));
+ history.replaceState(null,'','#'+k);$('curname').textContent=NAMES[k]||k;$('curproj').textContent=PROJ[k]?PROJ[k]+' /':'';$('side').classList.remove('open');
+ clearSel();if(cur)scene.remove(cache[cur].m);
+ if(!cache[k]){msg.className='';bar.style.width='0%'}
+ try{cache[k]??=await parse(k)}catch(e){gagal(e);return}
+ msg.className='sembunyi';cur=k;scene.add(cache[k].m);box=cache[k].b;
+ const c=cache[k].m.getObjectByName('components');if(c)c.visible=compOn;
+ fit3()}
+
+document.querySelectorAll('.bd').forEach(b=>b.onclick=()=>select(b.dataset.k));
+$('bc').onclick=()=>{compOn=!compOn;const c=cache[cur]?.m.getObjectByName('components');if(c)c.visible=compOn;
+ $('bc').classList.toggle('on',compOn);$('bc').textContent='Components: '+(compOn?'ON':'OFF')};
+$('br').onclick=()=>{ctl.autoRotate=!ctl.autoRotate;$('br').classList.toggle('on',ctl.autoRotate);
+ $('br').textContent='Auto-rotate: '+(ctl.autoRotate?'ON':'OFF')};
+$('sp').oninput=e=>{const v=+e.target.value;ctl.autoRotateSpeed=v;$('spv').textContent=v+'\\u00d7'};
+$('fit').onclick=fit3;
+
+/* Baris kontrol bisa disembunyikan supaya kanvas 3D lebih lega. */
+function barKontrol(tutup){
+ document.body.classList.toggle('ringkas',tutup);
+ $('tutupbar').setAttribute('aria-expanded',tutup?'false':'true');
+ try{localStorage.setItem('barKontrol',tutup?'tutup':'buka')}catch(e){}
+ rs()}
+$('tutupbar').onclick=()=>barKontrol(true);
+$('bukabar').onclick=()=>barKontrol(false);
+try{if(localStorage.getItem('barKontrol')==='tutup')barKontrol(true)}catch(e){}
+
+const LOREM={pcb:'The printed board itself. Click another part to see its size and position.',comp:'One component on this board. Its size and position are measured straight from the 3D model.'};
+const DESC={};
+const ray=new THREE.Raycaster(),mp=new THREE.Vector2(),ufc=new WeakMap();let ov=null;
+function roots(g){let r=ufc.get(g);if(r)return r;
+ const ix=g.index.array,n=g.attributes.position.count,p=new Int32Array(n);for(let i=0;i<n;i++)p[i]=i;
+ const f=a=>{while(p[a]!==a){p[a]=p[p[a]];a=p[a]}return a};
+ for(let i=0;i<ix.length;i+=3){const ra=f(ix[i]),rb=f(ix[i+1]);if(ra!==rb)p[rb]=ra;const rc=f(ix[i+2]),r2=f(ra);if(r2!==rc)p[rc]=r2}
+ for(let i=0;i<n;i++)p[i]=f(i);ufc.set(g,p);return p}
+const vis=o=>{for(;o;o=o.parent)if(!o.visible)return false;return true};
+function clearSel(){if(ov){ov.parent&&ov.parent.remove(ov);ov.geometry.dispose();ov=null}$('card').style.display='none'}
+function pick(e){
+ if(!cur)return;const r=ren.domElement.getBoundingClientRect();
+ mp.set((e.clientX-r.left)/r.width*2-1,-((e.clientY-r.top)/r.height)*2+1);ray.setFromCamera(mp,cam);
+ const hits=ray.intersectObject(cache[cur].m,true).filter(h=>h.object.isMesh&&h.object!==ov&&h.object.geometry.index&&vis(h.object));
+ clearSel();if(!hits.length)return;
+ const h=hits[0],m=h.object,g=m.geometry,rt=roots(g),ix=g.index.array,pos=g.attributes.position,root=rt[ix[h.faceIndex*3]],out=[];
+ for(let i=0;i<ix.length;i+=3)if(rt[ix[i]]===root)for(let j=0;j<3;j++){const v=ix[i+j];out.push(pos.getX(v),pos.getY(v),pos.getZ(v))}
+ const og=new THREE.BufferGeometry();og.setAttribute('position',new THREE.Float32BufferAttribute(out,3));
+ ov=new THREE.Mesh(og,new THREE.MeshBasicMaterial({color:0x9c3b1b,transparent:true,opacity:.8,side:THREE.DoubleSide,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-4,polygonOffsetUnits:-4}));
+ ov.raycast=()=>{};m.add(ov);ov.updateWorldMatrix(true,false);
+ let comp=false;for(let o=m;o;o=o.parent)if(o.name==='components')comp=true;
+ const b=new THREE.Box3().setFromObject(ov),s=b.getSize(new THREE.Vector3()),c=b.getCenter(new THREE.Vector3()),t=comp?'comp':'pcb',n=v=>v.toFixed(2);
+ $('ct').textContent=comp?'COMPONENT':'PCB';$('ch').textContent=(NAMES[cur]||cur)+(comp?' \\u2014 component':' \\u2014 printed board');
+ $('cd').innerHTML='';[['Size (L \\u00d7 W \\u00d7 H)',n(s.x)+' \\u00d7 '+n(s.z)+' \\u00d7 '+n(s.y)+' mm'],['Position X, Y',n(c.x)+', '+n(-c.z)+' mm from board centre'],['Height (Z)',n(b.min.y)+' to '+n(b.max.y)+' mm from the PCB surface'],['Triangles',String(out.length/9)]].forEach(([a,v])=>{const tr=document.createElement('tr'),d1=document.createElement('td'),d2=document.createElement('td');d1.textContent=a;d2.textContent=v;tr.append(d1,d2);$('cd').append(tr)});
+ $('cp').textContent=(DESC[cur]&&DESC[cur][t])||LOREM[t];$('card').style.display='block'}
+let pd=null;const cv=ren.domElement;
+cv.addEventListener('pointerdown',e=>{pd=e.button===0?{x:e.clientX,y:e.clientY}:null});
+cv.addEventListener('pointerup',e=>{if(pd&&Math.hypot(e.clientX-pd.x,e.clientY-pd.y)<5)pick(e);pd=null});
+$('menu').onclick=()=>{$('side').classList.toggle('open');$('kanan').classList.remove('open')};
+cv.addEventListener('pointerdown',()=>{$('side').classList.remove('open');$('kanan').classList.remove('open')});
+$('cx').onclick=clearSel;addEventListener('keydown',e=>{if(e.key==='Escape'){clearSel();$('side').classList.remove('open');$('kanan').classList.remove('open')}});
+const SUDUT={top:[0,1,.02],bot:[0,-1,.02],iso:null};
+document.querySelectorAll('.vw').forEach(b=>b.onclick=()=>fit3(SUDUT[b.dataset.v]));
+document.querySelectorAll('.bg').forEach(b=>b.onclick=()=>{
+ s3.classList.remove('bgdark','bglight');
+ if(b.dataset.bg)s3.classList.add(b.dataset.bg);
+ document.querySelectorAll('.bg').forEach(x=>x.classList.toggle('on',x===b))});
+$('opsi').onclick=()=>{$('kanan').classList.toggle('open');$('side').classList.remove('open')};
+addEventListener('resize',rs);rs();
+(function loop(){requestAnimationFrame(loop);ctl.update();ren.render(scene,cam)})();
+addEventListener('hashchange',()=>{const h=location.hash.slice(1);if(KEYS.includes(h)&&h!==cur)select(h)});
+const h0=location.hash.slice(1);select(KEYS.includes(h0)?h0:DEFAULT);
+</script>
+</body>
+</html>
+'''
+
+isi = HTML
+for penanda, nilai in [
+    ('__LATAR__',   LATAR.replace(' ', '%20')),
+    ('__TOMBOL__',  TOMBOL),
+    ('__NAMES__',   json.dumps(NAMA, ensure_ascii=False)),
+    ('__PROJ__',    json.dumps(PROYEK, ensure_ascii=False)),
+    ('__MODELS__',  json.dumps({k: v.replace(' ', '%20') for k, v in MODEL.items()}, ensure_ascii=False)),
+    ('__KEYS__',    json.dumps(KUNCI)),
+    ('__DEFAULT__', json.dumps(DEFAULT)),
+]:
+    assert penanda in isi, 'penanda hilang: ' + penanda
+    isi = isi.replace(penanda, nilai)
+
+io.open(KELUAR, 'w', encoding='utf-8').write(isi)
+
+total = sum(UKUR.values())
+print('%-22s %8.1f KB' % ('boards/index.html', len(isi.encode('utf-8')) / 1024.0))
+print('%-22s %8.1f MB   %d berkas, diambil hanya saat dipilih'
+      % ('boards/models/', total / 1048576.0, len(UKUR)))
+print()
+for b in BOARDS:
+    print('   %-11s %-32s %6.1f MB'
+          % (b['key'], b['label'], UKUR.get(b['key'], 0) / 1048576.0))
