@@ -29,7 +29,7 @@
 
 :root{
   --latar:#faf9f6; --ubin:#eceae4; --ubin-2:#e3e0d7;
-  --tinta:#14130f; --tinta-2:#6b685f; --tinta-3:#9c988c;
+  --tinta:#14130f; --tinta-2:#6b685f; --tinta-3:#6b685f;
   --aksen:#9c3b1b; --garis:#ddd9d0; --tepi:24px;
 }
 *,*::before,*::after{ box-sizing:border-box }
@@ -55,6 +55,13 @@ p{ margin:0 }
 .menu a.kini{ color:var(--aksen); border-bottom-color:var(--aksen) }
 .sisi{ display:flex; gap:18px; font-size:14px; color:var(--tinta-2) }
 .sisi a:hover{ color:var(--aksen) }
+/* tombol CV di bar: satu-satunya tautan bergaya tombol di navigasi,
+   sebab inilah langkah yang paling ingin diambil perekrut */
+.sisi .cv{
+  padding:7px 13px; background:var(--aksen); color:#fff;
+  font-weight:600; border-radius:3px;
+}
+.sisi .cv:hover{ background:#b84824; color:#fff }
 
 /* ------------------------------------------------------ kepala halaman */
 .kepala{
@@ -74,7 +81,7 @@ h1 .aks{ color:var(--aksen) }
   padding-top:22px; margin-top:34px;
   border-top:1px solid var(--garis); scroll-margin-top:20px;
 }
-".proyek:first-of-type{ border-top:1px solid var(--tinta) }
+.proyek:first-of-type{ border-top:1px solid var(--tinta) }
 .alat{ padding-top:24px; margin-top:40px; border-top:1px solid var(--tinta) }
 .alat .atas h2{ font-size:clamp(19px,2.1vw,24px) }
 .alat .cap b{ color:var(--tinta-2) }
@@ -163,6 +170,9 @@ details p + p{ margin-top:.9em }
   .cap{ margin-left:0 }
   .ajakan a{ margin-left:0 }
 }
+@media (prefers-reduced-motion:reduce){
+  *{ transition:none !important; animation:none !important }
+}
 </style>
 </head>
 <body>
@@ -179,6 +189,7 @@ details p + p{ margin-top:.9em }
       <a href="about.html">About</a>
     </div>
     <div class="sisi">
+      <a class="cv" href="CV-Asna-Azhari.pdf" download>Download CV</a>
       <a href="https://wa.me/6285701496855" target="_blank" rel="noopener">WhatsApp</a>
       <a href="https://linkedin.com/in/asna-azhari" target="_blank" rel="noopener">Linkedin</a>
       <a href="mailto:asnaazhari12@gmail.com">Email</a>
@@ -461,7 +472,7 @@ details p + p{ margin-top:.9em }
     <div class="atas">
       <span class="no">05</span>
       <h2>Three-phase energy meter</h2>
-      <span class="cap"><span class="jml">One boards</span> &middot; <b>meter verified, add-on in design</b></span>
+      <span class="cap"><span class="jml">Two boards</span> &middot; <b>meter verified, add-on in design</b></span>
     </div>
     <p class="ringkas">Monitoring and remote cut-off for generator sets from 25 to 200 kVA,
       and the cellular add-on that gets the readings off site. Designed for PT Avenxor.</p>

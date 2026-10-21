@@ -29,7 +29,7 @@
 
 :root{
   --latar:#faf9f6; --ubin:#eceae4; --ubin-2:#e3e0d7;
-  --tinta:#14130f; --tinta-2:#6b685f; --tinta-3:#9c988c;
+  --tinta:#14130f; --tinta-2:#6b685f; --tinta-3:#6b685f;
   --aksen:#9c3b1b; --garis:#ddd9d0; --tepi:24px;
 }
 *,*::before,*::after{ box-sizing:border-box }
@@ -56,6 +56,13 @@ ul{ margin:0; padding:0; list-style:none }
 .menu a.kini{ color:var(--aksen); border-bottom-color:var(--aksen) }
 .sisi{ display:flex; gap:18px; font-size:14px; color:var(--tinta-2) }
 .sisi a:hover{ color:var(--aksen) }
+/* tombol CV di bar: satu-satunya tautan bergaya tombol di navigasi,
+   sebab inilah langkah yang paling ingin diambil perekrut */
+.sisi .cv{
+  padding:7px 13px; background:var(--aksen); color:#fff;
+  font-weight:600; border-radius:3px;
+}
+.sisi .cv:hover{ background:#b84824; color:#fff }
 
 /* ------------------------------------------------------ kepala halaman */
 .kepala{
@@ -144,6 +151,9 @@ h1 .aks{ color:var(--aksen) }
   .daftar div{ grid-template-columns:1fr; gap:3px }
   .ajakan a{ margin-left:0 }
 }
+@media (prefers-reduced-motion:reduce){
+  *{ transition:none !important; animation:none !important }
+}
 </style>
 </head>
 <body>
@@ -160,6 +170,7 @@ h1 .aks{ color:var(--aksen) }
       <a href="about.html">About</a>
     </div>
     <div class="sisi">
+      <a class="cv" href="CV-Asna-Azhari.pdf" download>Download CV</a>
       <a href="https://wa.me/6285701496855" target="_blank" rel="noopener">WhatsApp</a>
       <a href="https://linkedin.com/in/asna-azhari" target="_blank" rel="noopener">Linkedin</a>
       <a href="mailto:asnaazhari12@gmail.com">Email</a>
@@ -169,7 +180,7 @@ h1 .aks{ color:var(--aksen) }
   <div class="kepala">
     <h1>Hardware first. <span class="aks">Enough firmware to prove the hardware.</span></h1>
     <p>A list of skills can be written by anyone, so each group below points at the product
-      that proves it. The work itself is in <b>Projects</b>, and twelve of the boards can be
+      that proves it. The work itself is in <b>Projects</b>, and eight of the boards can be
       opened in 3D.</p>
   </div>
 
@@ -326,7 +337,7 @@ h1 .aks{ color:var(--aksen) }
   <div class="ajakan">
     <div>
       <b>The boards behind all of this</b>
-      <p>Five products, twelve boards, and most of them open in a 3D viewer where you can
+      <p>Five products, fourteen boards, and eight of them open in a 3D viewer where you can
         rotate them and look at the real component placement.</p>
     </div>
     <a href="projects.html">See the projects</a>

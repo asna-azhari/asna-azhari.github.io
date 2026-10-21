@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Page not found — Asna Azhari</title>
+<meta name="description" content="That page does not exist. Here is the way back.">
+<meta name="robots" content="noindex">
+<meta name="theme-color" content="#faf9f6">
+<link rel="icon" href="/img/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/img/ikon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="/img/ikon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* HALAMAN 404
+   Tema sama dengan halaman lain. Tugasnya satu: memberi jalan keluar,
+   bukan memberi tahu pengunjung bahwa dia salah. */
+
+:root{
+  --latar:#faf9f6; --ubin:#eceae4; --ubin-2:#e3e0d7;
+  --tinta:#14130f; --tinta-2:#6b685f; --tinta-3:#6b685f;
+  --aksen:#9c3b1b; --garis:#ddd9d0; --tepi:24px;
+}
+*,*::before,*::after{ box-sizing:border-box }
+body{
+  margin:0; min-height:100vh; background:var(--latar); color:var(--tinta);
+  font:400 15px/1.5 Archivo, system-ui, sans-serif; -webkit-font-smoothing:antialiased;
+  display:flex; flex-direction:column;
+}
+a{ color:inherit; text-decoration:none }
+p{ margin:0 }
+:focus-visible{ outline:2px solid var(--aksen); outline-offset:3px }
+
+.depan{ padding:var(--tepi); flex:1; display:flex; flex-direction:column }
+
+.bilah{
+  display:flex; align-items:center; gap:26px; flex-wrap:wrap;
+  padding-bottom:16px; border-bottom:1px solid var(--tinta);
+}
+.bilah .nama{ font-weight:700; font-size:17px; letter-spacing:-.03em; margin-right:auto }
+.menu{ display:flex; flex-wrap:wrap; gap:22px; font-size:14px; font-weight:500 }
+.menu a{ padding-bottom:2px; border-bottom:2px solid transparent }
+.menu a:hover{ border-bottom-color:var(--tinta) }
+.sisi{ display:flex; gap:18px; font-size:14px; color:var(--tinta-2) }
+.sisi a:hover{ color:var(--aksen) }
+
+.isi{ flex:1; display:flex; flex-direction:column; justify-content:center; padding:48px 0 }
+.kode{
+  font-size:13px; font-weight:600; letter-spacing:.1em; color:var(--tinta-3);
+  margin-bottom:16px;
+}
+h1{
+  margin:0; font-size:clamp(30px,3.6vw,56px); font-weight:700;
+  letter-spacing:-.045em; line-height:1.0; max-width:16ch;
+}
+h1 span{ color:var(--aksen) }
+.isi > p{
+  margin-top:22px; font-size:15.5px; line-height:1.65;
+  color:var(--tinta-2); max-width:54ch;
+}
+
+.jalan{ margin-top:34px; display:grid; grid-template-columns:repeat(4,1fr); gap:12px; max-width:760px }
+.jalan a{
+  padding:16px 18px; background:var(--ubin); transition:background .22s ease;
+}
+.jalan a:hover{ background:var(--ubin-2) }
+.jalan b{ display:block; font-size:15px; font-weight:600; letter-spacing:-.02em }
+.jalan i{
+  display:block; font-style:normal; font-size:12.5px; color:var(--tinta-2); margin-top:3px;
+}
+
+@media (max-width:760px){
+  :root{ --tepi:16px }
+  .bilah .nama{ margin-right:0 }
+  .jalan{ grid-template-columns:1fr 1fr }
+}
+@media (prefers-reduced-motion:reduce){
+  *{ transition:none !important; animation:none !important }
+}
+</style>
+</head>
+<body>
+
+<main class="depan">
+
+  <nav class="bilah">
+    <a class="nama" href="/">Asna Azhari</a>
+    <div class="menu">
+      <a href="/">Home</a>
+      <a href="/projects.html">Projects</a>
+      <a href="/skills.html">Skills</a>
+      <a href="/boards/">3D Boards</a>
+      <a href="/about.html">About</a>
+    </div>
+    <div class="sisi">
+      <a href="https://wa.me/6285701496855" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="https://linkedin.com/in/asna-azhari" target="_blank" rel="noopener">Linkedin</a>
+      <a href="mailto:asnaazhari12@gmail.com">Email</a>
+    </div>
+  </nav>
+
+  <div class="isi">
+    <div class="kode">ERROR 404</div>
+    <h1>This page does not exist. <span>The boards do.</span></h1>
+    <p>Either the address was typed slightly wrong, or something here moved after you saved
+      the link. Nothing is broken on your side.</p>
+
+    <div class="jalan">
+      <a href="/"><b>Home</b><i>Start here</i></a>
+      <a href="/projects.html"><b>Projects</b><i>Five products, fourteen boards</i></a>
+      <a href="/boards/"><b>3D Boards</b><i>Eight you can rotate</i></a>
+      <a href="/about.html"><b>About</b><i>How I work</i></a>
+    </div>
+  </div>
+
+</main>
+
+</body>
+</html>

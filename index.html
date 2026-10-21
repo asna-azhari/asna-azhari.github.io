@@ -29,7 +29,7 @@
 
 :root{
   --latar:#faf9f6; --ubin:#eceae4; --ubin-2:#e3e0d7;
-  --tinta:#14130f; --tinta-2:#6b685f; --tinta-3:#9c988c;
+  --tinta:#14130f; --tinta-2:#6b685f; --tinta-3:#6b685f;
   --aksen:#9c3b1b; --garis:#ddd9d0; --tepi:24px;
 }
 *,*::before,*::after{ box-sizing:border-box }
@@ -55,6 +55,13 @@ p{ margin:0 }
 .menu a.kini{ color:var(--aksen); border-bottom-color:var(--aksen) }
 .sisi{ display:flex; gap:18px; font-size:14px; color:var(--tinta-2) }
 .sisi a:hover{ color:var(--aksen) }
+/* tombol CV di bar: satu-satunya tautan bergaya tombol di navigasi,
+   sebab inilah langkah yang paling ingin diambil perekrut */
+.sisi .cv{
+  padding:7px 13px; background:var(--aksen); color:#fff;
+  font-weight:600; border-radius:3px;
+}
+.sisi .cv:hover{ background:#b84824; color:#fff }
 
 /* ------------------------------------------------------ kepala */
 .kepala{
@@ -134,6 +141,9 @@ h1 span{ color:var(--aksen) }
   object-fit:contain; display:block;
 }
 
+@media (prefers-reduced-motion:reduce){
+  *{ transition:none !important; animation:none !important }
+}
 </style>
 </head>
 <body>
@@ -150,6 +160,7 @@ h1 span{ color:var(--aksen) }
       <a href="about.html">About</a>
     </div>
     <div class="sisi">
+      <a class="cv" href="CV-Asna-Azhari.pdf" download>Download CV</a>
       <a href="https://wa.me/6285701496855" target="_blank" rel="noopener">WhatsApp</a>
       <a href="https://linkedin.com/in/asna-azhari" target="_blank" rel="noopener">Linkedin</a>
       <a href="mailto:asnaazhari12@gmail.com">Email</a>

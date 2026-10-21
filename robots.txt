@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://asna-azhari.github.io/sitemap.xml
