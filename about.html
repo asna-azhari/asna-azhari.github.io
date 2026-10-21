@@ -114,6 +114,30 @@ h1 .aks{ color:var(--aksen) }
 }
 .tanya b{ color:var(--tinta) }
 
+/* riwayat: tahun di kiri sebagai pita, isi di kanan.
+   Garis tegak menyambungkan ketiganya jadi satu jalur, bukan tiga kotak lepas. */
+.riwayat{ margin:1.6em 0 0; position:relative }
+.riwayat::before{
+  content:""; position:absolute; left:7px; top:10px; bottom:10px;
+  width:1px; background:var(--garis);
+}
+.riwayat li{ position:relative; padding-left:34px; padding-bottom:26px }
+.riwayat li:last-child{ padding-bottom:0 }
+.riwayat li::before{
+  content:""; position:absolute; left:0; top:7px;
+  width:15px; height:15px; border-radius:50%;
+  background:var(--latar); border:2px solid var(--garis);
+}
+.riwayat li.kini::before{ border-color:var(--aksen); background:var(--aksen) }
+.riwayat .kapan{
+  font-size:12.5px; font-weight:600; letter-spacing:.06em; color:var(--tinta-2);
+}
+.riwayat .apa{
+  display:block; margin-top:4px; font-size:17px; font-weight:700; letter-spacing:-.03em;
+}
+.riwayat .mana{ display:block; margin-top:2px; font-size:13.5px; color:var(--tinta-2) }
+.riwayat p{ margin-top:9px; font-size:14.5px; line-height:1.65; color:var(--tinta-2); max-width:62ch }
+
 /* rel fakta */
 .rel{ display:flex; flex-direction:column; gap:0; padding-top:4px }
 .rel div{
@@ -243,12 +267,37 @@ h1 .aks{ color:var(--aksen) }
         adapter, a Modbus adapter, a hub. None of them ship to a customer. They exist so the
         real work can move.</p>
 
-      <h2>Before this</h2>
+      <h2>The path so far</h2>
 
-      <p>I studied Electrical Engineering at <b>Universitas Negeri Yogyakarta</b>,
-        concentrating on control systems. My thesis predicted state of charge in a 108 V
-        259 Ah battery pack using an LSTM network, which is where I first had to decide
-        whether a model that fitted the data was actually telling me something true.</p>
+      <ul class="riwayat">
+        <li class="kini">
+          <span class="kapan">JANUARY 2026 &mdash; PRESENT</span>
+          <span class="apa">Lead Hardware Engineer</span>
+          <span class="mana">PT Mega Andalan Elektromedik &middot; Yogyakarta</span>
+          <p>Lead the hardware function across five product lines while still designing
+            hands-on, and mentored one engineer to independent work within six months. I own
+            the verification standards the team works to: a nine-document set per board, from
+            schematic review through to requirement traceability.</p>
+        </li>
+        <li>
+          <span class="kapan">JANUARY 2024 &mdash; DECEMBER 2025</span>
+          <span class="apa">Hardware Engineer</span>
+          <span class="mana">PT Mega Andalan Elektromedik &middot; Yogyakarta</span>
+          <p>Hired as the company's <b>first hardware engineer</b>, with no product to copy
+            and no senior engineer to ask. The operating table controller, its power supply
+            board, the nurse call set, the phototherapy mainboard and the incubator mainboard
+            were all drawn in this period, alongside firmware on the team codebase.</p>
+        </li>
+        <li>
+          <span class="kapan">2019 &mdash; 2023</span>
+          <span class="apa">B.Eng. Electrical Engineering, Control Systems</span>
+          <span class="mana">Universitas Negeri Yogyakarta</span>
+          <p>Thesis: predicting the effect of discharge current on the state of charge of a
+            108 V 259 Ah battery pack using an LSTM network. That is where I first had to
+            decide whether a model that fitted the data was actually telling me something
+            true.</p>
+        </li>
+      </ul>
 
       <h2>What I want next</h2>
 
