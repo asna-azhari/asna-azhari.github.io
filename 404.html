@@ -45,6 +45,11 @@ p{ margin:0 }
 .menu a:hover{ border-bottom-color:var(--tinta) }
 .sisi{ display:flex; gap:18px; font-size:14px; color:var(--tinta-2) }
 .sisi a:hover{ color:var(--aksen) }
+.sisi .kontak{
+  padding:6px 14px; border:1px solid var(--garis); border-radius:3px;
+  font-weight:500; transition:border-color .18s ease, color .18s ease;
+}
+.sisi .kontak:hover{ border-color:var(--aksen); color:var(--aksen) }
 
 .isi{ flex:1; display:flex; flex-direction:column; justify-content:center; padding:48px 0 }
 .kode{
@@ -95,9 +100,7 @@ h1 span{ color:var(--aksen) }
       <a href="/about.html">About</a>
     </div>
     <div class="sisi">
-      <a href="https://wa.me/6285701496855" target="_blank" rel="noopener">WhatsApp</a>
-      <a href="https://linkedin.com/in/asna-azhari" target="_blank" rel="noopener">Linkedin</a>
-      <a href="mailto:asnaazhari12@gmail.com">Email</a>
+      <a class="kontak" href="/about.html#contact">Contact</a>
     </div>
   </nav>
 

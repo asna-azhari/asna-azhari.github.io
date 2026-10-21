@@ -55,13 +55,11 @@ p{ margin:0 }
 .menu a.kini{ color:var(--aksen); border-bottom-color:var(--aksen) }
 .sisi{ display:flex; gap:18px; font-size:14px; color:var(--tinta-2) }
 .sisi a:hover{ color:var(--aksen) }
-/* tombol CV di bar: satu-satunya tautan bergaya tombol di navigasi,
-   sebab inilah langkah yang paling ingin diambil perekrut */
-.sisi .cv{
-  padding:7px 13px; background:var(--aksen); color:#fff;
-  font-weight:600; border-radius:3px;
+.sisi .kontak{
+  padding:6px 14px; border:1px solid var(--garis); border-radius:3px;
+  font-weight:500; transition:border-color .18s ease, color .18s ease;
 }
-.sisi .cv:hover{ background:#b84824; color:#fff }
+.sisi .kontak:hover{ border-color:var(--aksen); color:var(--aksen) }
 
 /* ------------------------------------------------------ kepala halaman */
 .kepala{
@@ -189,10 +187,7 @@ details p + p{ margin-top:.9em }
       <a href="about.html">About</a>
     </div>
     <div class="sisi">
-      <a class="cv" href="CV-Asna-Azhari.pdf" download>Download CV</a>
-      <a href="https://wa.me/6285701496855" target="_blank" rel="noopener">WhatsApp</a>
-      <a href="https://linkedin.com/in/asna-azhari" target="_blank" rel="noopener">Linkedin</a>
-      <a href="mailto:asnaazhari12@gmail.com">Email</a>
+      <a class="kontak" href="about.html#contact">Contact</a>
     </div>
   </nav>
 
@@ -305,7 +300,7 @@ details p + p{ margin-top:.9em }
         </a>
         <div class="isi">
           <b>PSU control board</b>
-          <i>12 V, 20 A continuous and 40 A peak</i>
+          <i>12 V, 20 A continuous and 40 A peak &middot; mass production</i>
         </div>
       </article>
 
@@ -417,7 +412,7 @@ details p + p{ margin-top:.9em }
     <div class="atas">
       <span class="no">04</span>
       <h2>Wireless nurse call</h2>
-      <span class="cap"><span class="jml">Two boards</span> &middot; <b>two products from scratch</b></span>
+      <span class="cap"><span class="jml">Two boards</span> &middot; <b>mass production</b></span>
     </div>
     <p class="ringkas">A patient button and a receiver, designed to drop into nurse call
       systems that are already installed.</p>
